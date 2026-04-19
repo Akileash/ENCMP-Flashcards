@@ -25,5 +25,3 @@ If you have never used GitHub before, follow these steps:
 6. Double-click `encmp100_flashcards.html` to open it in your web browser.
 7. Use the on-screen buttons or keyboard controls (`Left`, `Right`, `Space`) to study.
 
-## Notes
-- This repository is focused on the flashcards app.
