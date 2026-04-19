@@ -15,8 +15,15 @@ Answer side:
 ![Flashcards answer view](flashcards_answer_cropped.png)
 
 ## How to use
-1. Open `encmp100_flashcards.html` in any modern web browser.
-2. Use the on-screen buttons or keyboard controls (`Left`, `Right`, `Space`) to study.
+If you have never used GitHub before, follow these steps:
+
+1. Open this repository page on GitHub.
+2. Click the green **Code** button.
+3. Click **Download ZIP**.
+4. Find the downloaded ZIP file on your computer and extract it.
+5. Open the extracted folder.
+6. Double-click `encmp100_flashcards.html` to open it in your web browser.
+7. Use the on-screen buttons or keyboard controls (`Left`, `Right`, `Space`) to study.
 
 ## Notes
 - This repository is focused on the flashcards app.
