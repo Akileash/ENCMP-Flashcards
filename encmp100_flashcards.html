@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENCMP 100 — Flashcards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg: #050b2a;
+  --bg2: #0f1a42;
+  --bg3: #132455;
+  --bg4: #1b2f68;
+  --txt: #e8fbff;
+  --txt2: #9ed8eb;
+  --txt3: #5f8fb4;
+  --gold: #f7ecb1;
+  --gold2: #fff5c8;
+  --teal: #69fff0;
+  --teal2: #173a68;
+  --border: #275188;
+  --border2: #3370ad;
+  --radius: 18px;
+}
+html{height:100%}
+body{
+  background:
+    radial-gradient(1000px 500px at 15% -10%, rgba(105,255,240,0.14), transparent 58%),
+    radial-gradient(800px 480px at 85% -5%, rgba(247,236,177,0.10), transparent 60%),
+    linear-gradient(170deg, #020827 0%, #040d31 45%, #06133a 100%);
+  color:var(--txt);min-height:100vh;
+  font-family: "Outfit", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  letter-spacing:0.01em;
+}
+body.light{
+  --bg: #eef3ff;
+  --bg2: #ffffff;
+  --bg3: #edf3ff;
+  --bg4: #dfe9ff;
+  --txt: #0f2347;
+  --txt2: #2b4d7f;
+  --txt3: #5f7ca8;
+  --gold: #9a6e10;
+  --gold2: #7a5607;
+  --teal: #008f89;
+  --teal2: #d8f4f2;
+  --border: #c8d9f5;
+  --border2: #acc6ea;
+  background:
+    radial-gradient(900px 500px at 12% -10%, rgba(105,255,240,0.2), transparent 56%),
+    radial-gradient(860px 540px at 88% -8%, rgba(255, 240, 189, 0.35), transparent 62%),
+    linear-gradient(180deg, #f7fbff 0%, #eef4ff 52%, #e8f0ff 100%);
+}
+
+/* ── LAYOUT ── */
+#app{max-width:980px;margin:0 auto;padding:2.8rem 1.5rem 5rem}
+
+/* ── HEADER ── */
+.site-header{margin-bottom:2.2rem;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:0.75rem}
+.header-tools{display:flex;align-items:center;gap:0.7rem;flex-wrap:wrap;justify-content:flex-end}
+.site-title{
+  font-size:2.6rem;font-weight:700;letter-spacing:0.1em;line-height:1;
+  text-transform:uppercase;color:var(--gold2);
+  text-shadow:0 0 24px rgba(247,236,177,0.12);
+}
+.site-title span{color:var(--teal);font-style:normal;font-weight:800}
+.kbd-hint{font-size:13px;color:var(--txt2);line-height:1.8;font-weight:500;}
+.kbd-hint kbd{
+  display:inline-block;padding:2px 8px;border:1px solid var(--border2);
+  border-radius:6px;background:rgba(19,36,85,0.65);color:var(--txt3);margin:0 2px;
+  font-weight:600;font-size:12px;
+}
+.theme-btn{
+  padding:8px 14px;
+  border:1px solid var(--border2);
+  border-radius:999px;
+  background:rgba(15,26,66,0.86);
+  color:var(--txt2);
+  cursor:pointer;
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:0.03em;
+  transition:all 0.2s ease;
+}
+.theme-btn:hover{
+  color:var(--teal);
+  border-color:var(--teal);
+  box-shadow:0 0 0 1px rgba(105,255,240,0.2), 0 0 16px rgba(105,255,240,0.14);
+}
+
+/* ── CATEGORY TABS ── */
+.cats{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem}
+.cat-btn{
+  padding:8px 16px;font-size:14px;letter-spacing:0.03em;
+  border:1px solid var(--border2);border-radius:999px;cursor:pointer;
+  background:rgba(15,26,66,0.8);color:var(--txt2);
+  transition:all 0.2s ease;
+  font-weight:600;
+}
+.cat-btn:hover{
+  border-color:var(--teal);color:var(--teal);
+  box-shadow:0 0 0 1px rgba(105,255,240,0.22), 0 0 18px rgba(105,255,240,0.16);
+}
+.cat-btn.active{
+  background:linear-gradient(90deg, rgba(105,255,240,0.22), rgba(105,255,240,0.1));
+  color:var(--teal);border-color:rgba(105,255,240,0.8);
+  box-shadow:0 0 0 1px rgba(105,255,240,0.25), inset 0 0 14px rgba(105,255,240,0.08);
+}
+
+/* ── CARD ── */
+.card-scene{perspective:1600px;margin-bottom:1.6rem;cursor:pointer}
+.card-inner{
+  position:relative;width:100%;min-height:500px;
+  transition:transform 0.55s cubic-bezier(.4,0,.2,1);
+  transform-style:preserve-3d;
+}
+.card-inner.flipped{transform:rotateY(180deg)}
+.face{
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  width:100%;min-height:500px;
+  border:1px solid var(--border2);border-radius:var(--radius);
+  display:flex;flex-direction:column;
+  background:linear-gradient(160deg, rgba(15,26,66,0.94) 0%, rgba(9,18,49,0.92) 100%);
+  position:absolute;top:0;left:0;
+  transition:border-color 0.2s, box-shadow 0.2s;
+  overflow:hidden;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 20px 48px rgba(1,5,20,0.58);
+  backdrop-filter:blur(4px);
+}
+.face.front{
+  justify-content:center;align-items:center;
+  padding:3.5rem 3rem;text-align:center;
+  background:
+    radial-gradient(600px 260px at 80% -10%, rgba(105,255,240,0.11), transparent 60%),
+    radial-gradient(520px 220px at 0% 110%, rgba(247,236,177,0.09), transparent 62%),
+    linear-gradient(160deg, rgba(13,26,66,0.94) 0%, rgba(10,20,56,0.95) 100%);
+}
+.face.back{
+  transform:rotateY(180deg);
+  padding:2.2rem 2.5rem 2rem;
+  overflow-y:auto;
+  position:absolute;
+  cursor:default;
+}
+.card-scene:not(.flipped):hover .face{
+  border-color:rgba(105,255,240,0.8);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.1),
+    0 26px 52px rgba(2, 10, 38, 0.7),
+    0 0 28px rgba(105,255,240,0.18);
+}
+
+/* front face content */
+.front-badge{
+  position:absolute;top:1.2rem;left:1.5rem;
+  font-size:13px;
+  color:var(--teal);letter-spacing:0.06em;text-transform:uppercase;
+  background:rgba(23,58,104,0.7);padding:6px 12px;border-radius:999px;
+  border:1px solid rgba(105,255,240,0.75);opacity:0.95;font-weight:700;
+}
+.front-q{
+  font-size:2rem;font-weight:600;line-height:1.4;
+  max-width:600px;color:var(--txt);
+  text-shadow:0 0 18px rgba(0,0,0,0.3);
+}
+.flip-cue{
+  position:absolute;bottom:1.2rem;right:1.5rem;
+  font-size:12px;font-weight:500;letter-spacing:0.04em;
+  color:var(--txt2);display:flex;align-items:center;gap:5px;
+}
+.flip-cue::before{content:'↩';opacity:0.6;font-size:16px;font-weight:bold}
+
+/* back face content */
+.back-content{display:flex;flex-direction:column;gap:0.85rem;width:100%}
+
+.lbl{
+  font-size:14px;
+  color:var(--gold);letter-spacing:0.06em;text-transform:uppercase;
+  margin-top:0.4rem;font-weight:700;
+}
+.eq-block{
+  background:rgba(19,36,85,0.62);border:1px solid var(--border);border-radius:12px;
+  padding:1.2rem 1.25rem;overflow-x:auto;
+}
+.note{font-size:1.1rem;line-height:1.55;color:var(--txt2)}
+.note strong{color:var(--txt);font-weight:600}
+.eg{
+  font-style:italic;font-size:1.05rem;color:var(--txt2);
+  padding:0.9rem 1rem;border-left:3px solid var(--teal);
+  background:linear-gradient(90deg,rgba(19,36,85,0.68),transparent);
+  border-radius:0 8px 8px 0;
+}
+.divider{height:1px;background:var(--border);width:100%;margin:0.2rem 0}
+
+/* ── PROGRESS ── */
+.progress-row{
+  display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem;
+}
+.progress-bar{
+  flex:1;height:8px;background:rgba(51,112,173,0.35);border-radius:999px;overflow:hidden;
+}
+.progress-fill{
+  height:100%;background:linear-gradient(90deg,var(--teal),var(--gold));
+  border-radius:999px;transition:width 0.35s ease;
+  box-shadow:0 0 18px rgba(105,255,240,0.35);
+}
+.progress-label{
+  font-size:14px;font-variant-numeric: tabular-nums;
+  color:var(--txt2);min-width:60px;text-align:right;font-weight:600;
+}
+
+/* ── NAVIGATION ── */
+.nav{display:flex;align-items:center;justify-content:center;gap:0.85rem;margin-top:0.7rem;flex-wrap:wrap}
+.nav-btn{
+  padding:10px 24px;border:1px solid var(--border2);border-radius:12px;
+  background:rgba(15,26,66,0.9);color:var(--txt2);cursor:pointer;
+  font-size:14px;
+  transition:all 0.2s ease;font-weight:600;
+}
+.nav-btn:hover{
+  border-color:rgba(105,255,240,0.8);color:var(--teal);background:rgba(23,58,104,0.8);
+  box-shadow:0 0 0 1px rgba(105,255,240,0.25), 0 0 20px rgba(105,255,240,0.15);
+}
+.nav-counter{
+  font-size:15px;font-variant-numeric: tabular-nums;
+  color:var(--txt2);min-width:90px;text-align:center;font-weight:600;
+}
+.shuffle-btn{
+  padding:10px 18px;font-size:13px;border:1px solid var(--border2);
+  border-radius:999px;cursor:pointer;background:rgba(15,26,66,0.9);
+  color:var(--txt2);
+  transition:all 0.2s ease;font-weight:600;
+}
+.shuffle-btn:hover{
+  border-color:var(--gold);color:var(--gold);background:rgba(247,236,177,0.12);
+  box-shadow:0 0 0 1px rgba(247,236,177,0.2), 0 0 18px rgba(247,236,177,0.16);
+}
+
+/* ── 3D & 2D WRAPPERS ── */
+.surface3d-wrap, .polar-wrap{
+  width:100%;border-radius:8px;overflow:hidden;
+  border:1px solid var(--border2);margin:0.5rem 0;
+  background:rgba(19,36,85,0.55);position:relative;
+  display:flex;flex-direction:column;
+}
+.canvas-mount{
+  width:100%;height:320px;position:relative;
+}
+.polar-wrap .canvas-mount{height:300px;}
+.canvas-mount canvas{width:100%!important;height:100%!important;display:block;outline:none; cursor: grab;}
+.canvas-mount canvas:active{cursor: grabbing;}
+
+.surface3d-hint{
+  position:absolute;bottom:8px;right:10px;
+  font-size:11px;font-weight:500;
+  color:var(--txt2);opacity:0.8;pointer-events:none;
+}
+
+/* ── SLIDERS ── */
+.sliders-row{
+  display:flex;flex-wrap:wrap;gap:1.5rem;padding:0.8rem 1rem;
+  background:rgba(27,47,104,0.7);border-top:1px solid var(--border2);
+  justify-content:center;
+}
+.slider-group{
+  display:flex;align-items:center;gap:0.5rem;
+}
+.slider-group label{
+  font-size:14px;font-weight:600;color:var(--txt);font-variant-numeric: tabular-nums;
+  min-width: 50px;
+}
+.slider-group input[type=range]{
+  accent-color: var(--teal);
+  cursor:pointer;
+}
+.footer-note{
+  text-align:center;
+  padding-top:2.5rem;
+  color:var(--txt3);
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+}
+body.light .site-title{color:#1a2f57;text-shadow:none}
+body.light .site-title span{color:#008f89}
+body.light .kbd-hint kbd{background:var(--bg3)}
+body.light .theme-btn{background:var(--bg2)}
+body.light .face{
+  background:linear-gradient(160deg, rgba(255,255,255,0.96) 0%, rgba(241,247,255,0.96) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.95),
+    0 20px 44px rgba(40, 78, 140, 0.14);
+}
+body.light .face.front{
+  background:
+    radial-gradient(600px 260px at 80% -10%, rgba(0,143,137,0.12), transparent 60%),
+    radial-gradient(520px 220px at 0% 110%, rgba(255,216,130,0.2), transparent 62%),
+    linear-gradient(160deg, rgba(255,255,255,0.97) 0%, rgba(241,247,255,0.97) 100%);
+}
+body.light .card-scene:not(.flipped):hover .face{
+  border-color:rgba(0,143,137,0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.96),
+    0 24px 46px rgba(35, 74, 139, 0.16),
+    0 0 20px rgba(0,143,137,0.12);
+}
+body.light .cat-btn,
+body.light .nav-btn,
+body.light .shuffle-btn{background:var(--bg2)}
+body.light .cat-btn.active{
+  background:linear-gradient(90deg, rgba(0,143,137,0.16), rgba(0,143,137,0.08));
+  border-color:rgba(0,143,137,0.65);
+}
+body.light .eq-block{background:rgba(237,243,255,0.95)}
+body.light .eg{background:linear-gradient(90deg,rgba(223,233,255,0.9),transparent)}
+body.light .surface3d-wrap,
+body.light .polar-wrap{background:rgba(233,241,255,0.85)}
+body.light .sliders-row{background:rgba(223,233,255,0.92)}
+
+/* ── KATEX OVERRIDES & SIZING ── */
+.katex{font-size:1.35rem}
+.katex-display{margin:0.2em 0}
+.front-q .katex{font-size:1.8rem}
+.eq-block .katex{font-size:1.55rem}
+.inline-math .katex{font-size:1.35rem}
+.eg .katex{font-size:1.25rem}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  #app{padding:1rem 1rem 3rem}
+  .site-title{font-size:2rem}
+  .header-tools{width:100%;justify-content:space-between}
+  .front-q{font-size:1.4rem}
+  .face.back{padding:1.5rem 1.8rem}
+  .canvas-mount{height:240px}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+/* ================================================================
+   CARD DATA
+   ================================================================ */
+const ALL = [
+
+/* ?? PYTHON BASICS ????????????????????????????????????? */
+{cat:"Python Basics",q:"What is an assignment statement in Python?",a:`
+<div class="lbl">Definition</div>
+<div class="note">An assignment statement stores a computed value in a variable name so it can be used later in the program.</div>
+<div class="lbl">Example</div>
+<div class="eq-block"><code>x = 3 * t + 1</code></div>
+`},
+{cat:"Python Basics",q:"Expression vs statement",a:`
+<div class="lbl">Key distinction</div>
+<div class="note">An <strong>expression</strong> produces a value. A <strong>statement</strong> performs an action, such as assignment, branching, or looping.</div>
+`},
+{cat:"Python Basics",q:"What is a variable?",a:`
+<div class="lbl">Definition</div>
+<div class="note">A variable is a named reference to a value. Its value can change as the program executes.</div>
+`},
+{cat:"Python Basics",q:"What are standard math functions used for?",a:`
+<div class="lbl">Purpose</div>
+<div class="note">Standard math functions (such as square root, trig, and logarithms) let programs evaluate mathematical formulas accurately and compactly.</div>
+`},
+{cat:"Python Basics",q:"What is input in a program?",a:`
+<div class="lbl">Definition</div>
+<div class="note">Input is data provided to a program, commonly from the keyboard, files, or generated values.</div>
+`},
+{cat:"Python Basics",q:"What is output in a program?",a:`
+<div class="lbl">Definition</div>
+<div class="note">Output is information produced by a program, such as printed text, computed results, plots, or files.</div>
+`},
+{cat:"Python Basics",q:"What are formatted strings used for?",a:`
+<div class="lbl">Use case</div>
+<div class="note">Formatted strings combine variables and text to produce readable output with controlled numeric format.</div>
+<div class="eg">Useful for labels, reports, and debugging prints.</div>
+`},
+
+/* ?? NUMPY & VECTORS ???????????????????????????????????? */
+{cat:"NumPy & Vectors",q:"What is a vectorized operation?",a:`
+<div class="lbl">Definition</div>
+<div class="note">A vectorized operation applies one operation to every element of an array without writing an explicit Python loop.</div>
+`},
+{cat:"NumPy & Vectors",q:"What is broadcasting?",a:`
+<div class="lbl">Definition</div>
+<div class="note">Broadcasting is NumPy's rule-based way to apply operations between arrays of different compatible shapes by virtually expanding dimensions.</div>
+`},
+{cat:"NumPy & Vectors",q:"Entrywise vs non-entrywise array operations",a:`
+<div class="lbl">Difference</div>
+<div class="note"><strong>Entrywise</strong> operations act element-by-element. <strong>Non-entrywise</strong> operations include matrix multiplication and other linear algebra operations.</div>
+`},
+{cat:"NumPy & Vectors",q:"What is matrix multiplication used for?",a:`
+<div class="lbl">Concept</div>
+<div class="note">Matrix multiplication combines rows and columns to model linear transformations and systems used across engineering computations.</div>
+`},
+{cat:"NumPy & Vectors",q:"Why use plotting with stored programs?",a:`
+<div class="lbl">Reason</div>
+<div class="note">Stored programs make plotting reproducible and editable, so you can rerun analysis and regenerate figures consistently.</div>
+`},
+{cat:"NumPy & Matplotlib",q:"What does np.array(...) do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.array(...)</code> creates a NumPy array from list-like input so you can do vectorized numeric operations.</div>
+`},
+{cat:"NumPy & Matplotlib",q:"What is np.ones(shape) used for?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.ones(shape)</code> creates an array filled with 1s, often used for initialization or testing.</div>
+`},
+{cat:"NumPy & Matplotlib",q:"What is np.zeros(shape) used for?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.zeros(shape)</code> creates an array filled with 0s, useful for empty buffers and accumulators.</div>
+`},
+{cat:"NumPy & Matplotlib",q:"What does np.arange(...) generate?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.arange(start, stop, step)</code> generates evenly spaced values in a half-open interval, similar to <code>range</code> but as an array.</div>
+`},
+{cat:"NumPy & Matplotlib",q:"What does np.random provide?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.random</code> provides pseudo-random number generation for simulation, sampling, and randomized experiments.</div>
+`},
+{cat:"NumPy & Matplotlib",q:"What does np.reshape(...) do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.reshape(...)</code> changes an array's dimensions without changing its data, as long as total element count stays the same.</div>
+`},
+{cat:"NumPy & Matplotlib",q:"What does np.transpose(...) do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.transpose(...)</code> swaps array axes (for 2D arrays, rows and columns are flipped).</div>
+`},
+{cat:"NumPy & Matplotlib",q:"What is plt.plot(...) used for?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>plt.plot(...)</code> draws line plots, typically to visualize relationships or trends in numeric data.</div>
+`},
+{cat:"NumPy & Matplotlib",q:"What is plt.subplots(...) used for?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>plt.subplots(...)</code> creates a figure and one or more axes objects, making multi-plot layouts easier to manage.</div>
+`},
+
+/* ?? SLIDE FUNCTIONS (ONE PER FUNCTION) ???????????????? */
+{cat:"Slide Functions",q:"What does print() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>print()</code> Outputs text or values to the console for user messages and debugging.</div>
+`},
+{cat:"Slide Functions",q:"What does input() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>input()</code> Reads a line of user input as text (string).</div>
+`},
+{cat:"Slide Functions",q:"What does int() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>int()</code> Converts a value to an integer when conversion is valid.</div>
+`},
+{cat:"Slide Functions",q:"What does float() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>float()</code> Converts a value to a floating-point number.</div>
+`},
+{cat:"Slide Functions",q:"What does str() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>str()</code> Converts a value to its string representation.</div>
+`},
+{cat:"Slide Functions",q:"What does len() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>len()</code> Returns the number of items in a sequence or collection.</div>
+`},
+{cat:"Slide Functions",q:"What does range() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>range()</code> Generates an integer sequence, commonly for loop control.</div>
+`},
+{cat:"Slide Functions",q:"What does sum() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>sum()</code> Returns the total of numeric values in an iterable.</div>
+`},
+{cat:"Slide Functions",q:"What does abs() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>abs()</code> Returns the absolute value (non-negative magnitude).</div>
+`},
+{cat:"Slide Functions",q:"What does round() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>round()</code> Rounds a number to a specified precision.</div>
+`},
+{cat:"Slide Functions",q:"What does sorted() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>sorted()</code> Returns a new sorted list from an iterable.</div>
+`},
+{cat:"Slide Functions",q:"What does list() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>list()</code> Creates a list object from an iterable or empty input.</div>
+`},
+{cat:"Slide Functions",q:"What does dict() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>dict()</code> Creates a dictionary object from mappings or key-value pairs.</div>
+`},
+{cat:"Slide Functions",q:"What does set() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>set()</code> Creates a set of unique elements.</div>
+`},
+{cat:"Slide Functions",q:"What does open() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>open()</code> Opens a file and returns a file handle for reading or writing.</div>
+`},
+{cat:"Slide Functions",q:"What does close() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>close()</code> Closes an open file handle and releases resources.</div>
+`},
+{cat:"Slide Functions",q:"What does readline() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>readline()</code> Reads one line at a time from a file stream.</div>
+`},
+{cat:"Slide Functions",q:"What does read() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>read()</code> Reads file content, often the remainder or entire file.</div>
+`},
+{cat:"Slide Functions",q:"What does write() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>write()</code> Writes text or bytes to a file or output stream.</div>
+`},
+{cat:"Slide Functions",q:"What does flush() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>flush()</code> Forces buffered output to be written immediately.</div>
+`},
+{cat:"Slide Functions",q:"What does split() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>split()</code> Splits a string into parts using whitespace or a separator.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>'a,b,c'.split(',') -> ['a','b','c']</code></div>
+`},
+{cat:"Slide Functions",q:"What does rsplit() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>rsplit()</code> Splits a string from the right side (useful for tail fields).</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>'a-b-c'.rsplit('-', 1) -> ['a-b','c']</code></div>
+`},
+{cat:"Slide Functions",q:"What does strip() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>strip()</code> Removes leading and trailing whitespace or specified characters.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>'  hi  '.strip() -> 'hi'</code></div>
+`},
+{cat:"Slide Functions",q:"What does rstrip() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>rstrip()</code> Removes trailing whitespace or specified trailing characters.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>'line\n'.rstrip() -> 'line'</code></div>
+`},
+{cat:"Slide Functions",q:"What does find() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>find()</code> Returns the index of a substring, or -1 if not found.</div>
+`},
+{cat:"Slide Functions",q:"What does upper() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>upper()</code> Converts letters in a string to uppercase.</div>
+`},
+{cat:"Slide Functions",q:"What does lower() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>lower()</code> Converts letters in a string to lowercase.</div>
+`},
+{cat:"Slide Functions",q:"What does isupper() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>isupper()</code> Checks whether cased characters in a string are uppercase.</div>
+`},
+{cat:"Slide Functions",q:"What does isdigit() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>isdigit()</code> Checks whether a string contains only digit characters.</div>
+`},
+{cat:"Slide Functions",q:"What does append() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>append()</code> Adds a new element to the end of a list.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>a=[1,2]; a.append(3) -> [1,2,3]</code></div>
+`},
+{cat:"Slide Functions",q:"What does insert() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>insert()</code> Inserts an element at a specific list position.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>a=[1,3]; a.insert(1,2) -> [1,2,3]</code></div>
+`},
+{cat:"Slide Functions",q:"What does pop() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>pop()</code> Removes and returns an element (list/dict), often last by default.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>a=[10,20,30]; a.pop() -> 30, a=[10,20]</code></div>
+`},
+{cat:"Slide Functions",q:"What does index() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>index()</code> Returns the position of a value in a sequence.</div>
+`},
+{cat:"Slide Functions",q:"What does sort() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>sort()</code> Sorts a list in place.</div>
+`},
+{cat:"Slide Functions",q:"What does remove() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>remove()</code> Removes the first matching value from a collection.</div>
+`},
+{cat:"Slide Functions",q:"What does get() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>get()</code> Retrieves a dictionary value by key with optional default.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>d={'x':1}; d.get('y',0) -> 0</code></div>
+`},
+{cat:"Slide Functions",q:"What does items() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>items()</code> Returns dictionary key-value pairs for iteration.</div>
+`},
+{cat:"Slide Functions",q:"What does add() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>add()</code> Adds an element to a set (or updates custom objects in examples).</div>
+`},
+{cat:"Slide Functions",q:"What does discard() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>discard()</code> Removes an element from a set if present (no error if missing).</div>
+`},
+{cat:"Slide Functions",q:"What does clear() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>clear()</code> Removes all elements from a collection.</div>
+`},
+{cat:"Slide Functions",q:"What does union() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>union()</code> Returns the set containing elements from both sets.</div>
+`},
+{cat:"Slide Functions",q:"What does intersection() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>intersection()</code> Returns common elements shared by sets.</div>
+`},
+{cat:"Slide Functions",q:"What does difference() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>difference()</code> Returns elements in one set but not another.</div>
+`},
+{cat:"Slide Functions",q:"What does issubset() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>issubset()</code> Checks whether one set is entirely contained in another.</div>
+`},
+{cat:"Slide Functions",q:"What does np.array() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.array()</code> Creates a NumPy array from list-like input.</div>
+`},
+{cat:"Slide Functions",q:"What does np.ones() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.ones()</code> Creates a NumPy array filled with ones.</div>
+`},
+{cat:"Slide Functions",q:"What does np.zeros() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.zeros()</code> Creates a NumPy array filled with zeros.</div>
+`},
+{cat:"Slide Functions",q:"What does np.arange() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.arange()</code> Generates evenly spaced numeric values as a NumPy array.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>np.arange(2, 10, 3) -> [2, 5, 8]</code></div>
+`},
+{cat:"Slide Functions",q:"What does np.reshape() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.reshape()</code> Changes array shape without changing total element count.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>[1,2,3,4,5,6] -> reshape(2,3)<br>[[1,2,3],<br>[4,5,6]]</code></div>
+`},
+{cat:"Slide Functions",q:"What does np.transpose() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.transpose()</code> Swaps array axes (rows/columns for 2D arrays).</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>[[1,2,3],<br>[4,5,6]] -> transpose<br>[[1,4],<br>[2,5],<br>[3,6]]</code></div>
+`},
+{cat:"Slide Functions",q:"What does flatten() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>flatten()</code> Returns a 1D copy of array elements.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>[[1,2],[3,4]].flatten() -> [1,2,3,4]</code></div>
+`},
+{cat:"Slide Functions",q:"What does np.sum() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.sum()</code> Computes sum over array elements (optionally by axis).</div>
+`},
+{cat:"Slide Functions",q:"What does np.mean() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.mean()</code> Computes arithmetic mean of array elements.</div>
+`},
+{cat:"Slide Functions",q:"What does np.max() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.max()</code> Returns maximum value in an array.</div>
+`},
+{cat:"Slide Functions",q:"What does np.min() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.min()</code> Returns minimum value in an array.</div>
+`},
+{cat:"Slide Functions",q:"What does np.argmax() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.argmax()</code> Returns index of the maximum array value.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>a = [7, 2, 9, 1]<br>np.argmax(a) -> 2</code></div>
+`},
+{cat:"Slide Functions",q:"What does np.argmin() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.argmin()</code> Returns index of the minimum array value.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>a = [7, 2, 9, 1]<br>np.argmin(a) -> 3</code></div>
+`},
+{cat:"Slide Functions",q:"What does np.sort() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.sort()</code> Returns sorted copy of array values.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>np.sort([4,1,3]) -> [1,3,4]</code></div>
+`},
+{cat:"Slide Functions",q:"What does np.argsort() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.argsort()</code> Returns indices that would sort an array.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>a = [40, 10, 30]<br>np.argsort(a) = [1, 2, 0]<br># a[[1,2,0]] -> [10,30,40]</code></div>
+`},
+{cat:"Slide Functions",q:"What does np.cumsum() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.cumsum()</code> Returns cumulative running sums across array elements.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>np.cumsum([2,3,5]) -> [2,5,10]</code></div>
+`},
+{cat:"Slide Functions",q:"What does np.cumprod() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.cumprod()</code> Returns cumulative running products across array elements.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>np.cumprod([2,3,5]) -> [2,6,30]</code></div>
+`},
+{cat:"Slide Functions",q:"What does np.all() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.all()</code> Returns True if all elements evaluate to True.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>np.all([True, True, False]) -> False</code></div>
+`},
+{cat:"Slide Functions",q:"What does np.any() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.any()</code> Returns True if any element evaluates to True.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>np.any([False, False, True]) -> True</code></div>
+`},
+{cat:"Slide Functions",q:"What does np.clip() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.clip()</code> Limits values to a specified minimum/maximum range.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>a = [-5, 2, 11]<br>np.clip(a, 0, 9) -> [0, 2, 9]</code></div>
+`},
+{cat:"Slide Functions",q:"What does np.abs() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.abs()</code> Returns absolute value elementwise.</div>
+`},
+{cat:"Slide Functions",q:"What does np.square() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.square()</code> Squares each element of an array.</div>
+`},
+{cat:"Slide Functions",q:"What does np.sqrt() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.sqrt()</code> Computes square root elementwise.</div>
+`},
+{cat:"Slide Functions",q:"What does np.exp() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.exp()</code> Computes exponential (e^x) elementwise.</div>
+`},
+{cat:"Slide Functions",q:"What does np.log() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.log()</code> Computes natural logarithm elementwise.</div>
+`},
+{cat:"Slide Functions",q:"What does np.log10() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.log10()</code> Computes base-10 logarithm elementwise.</div>
+`},
+{cat:"Slide Functions",q:"What does np.sin() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.sin()</code> Computes sine elementwise.</div>
+`},
+{cat:"Slide Functions",q:"What does np.cos() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.cos()</code> Computes cosine elementwise.</div>
+`},
+{cat:"Slide Functions",q:"What does np.tan() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.tan()</code> Computes tangent elementwise.</div>
+`},
+{cat:"Slide Functions",q:"What does np.arcsin() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.arcsin()</code> Computes inverse sine elementwise.</div>
+`},
+{cat:"Slide Functions",q:"What does np.arccos() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.arccos()</code> Computes inverse cosine elementwise.</div>
+`},
+{cat:"Slide Functions",q:"What does np.arctan() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.arctan()</code> Computes inverse tangent elementwise.</div>
+`},
+{cat:"Slide Functions",q:"What does np.floor() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.floor()</code> Rounds values down to nearest integer elementwise.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>np.floor([2.9, -1.2]) -> [2., -2.]</code></div>
+`},
+{cat:"Slide Functions",q:"What does np.ceil() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.ceil()</code> Rounds values up to nearest integer elementwise.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>np.ceil([2.1, -1.2]) -> [3., -1.]</code></div>
+`},
+{cat:"Slide Functions",q:"What does np.round() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.round()</code> Rounds values to nearest integer/precision elementwise.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>np.round([2.49, 2.51], 1) -> [2.5, 2.5]</code></div>
+`},
+{cat:"Slide Functions",q:"What does np.trunc() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.trunc()</code> Truncates fractional part elementwise.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>np.trunc([2.9, -1.8]) -> [2., -1.]</code></div>
+`},
+{cat:"Slide Functions",q:"What does astype() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>astype()</code> Casts an array to a target data type.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>np.array([1.7, 2.9]).astype(int) -> [1, 2]</code></div>
+`},
+{cat:"Slide Functions",q:"What does random.random() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>random.random()</code> Returns a random float in [0.0, 1.0).</div>
+`},
+{cat:"Slide Functions",q:"What does random.randint() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>random.randint()</code> Returns a random integer in a specified range.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>random.randint(1, 6) -> 4  # example die roll</code></div>
+`},
+{cat:"Slide Functions",q:"What does random.choice() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>random.choice()</code> Chooses a random element from a sequence.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>random.choice(['A','B','C']) -> 'B'</code></div>
+`},
+{cat:"Slide Functions",q:"What does np.random.rand() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.random.rand()</code> Generates random samples in [0,1) with given shape.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>np.random.rand(2,2) -> [[0.41,0.77],[0.12,0.93]]</code></div>
+`},
+{cat:"Slide Functions",q:"What does time.perf_counter() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>time.perf_counter()</code> Returns a high-resolution timer for performance measurement.</div>
+`},
+{cat:"Slide Functions",q:"What does time.sleep() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>time.sleep()</code> Pauses execution for a specified number of seconds.</div>
+`},
+{cat:"Slide Functions",q:"What does math.sqrt() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>math.sqrt()</code> Computes square root using Python's math module.</div>
+`},
+{cat:"Slide Functions",q:"What does plt.plot() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>plt.plot()</code> Draws a line plot from x/y data.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>x=[0,1,2], y=[1,3,2]<br>plt.plot(x,y)  # line through points</code></div>
+`},
+{cat:"Slide Functions",q:"What does plt.subplots() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>plt.subplots()</code> Creates a figure and axes objects for plotting layouts.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>fig, ax = plt.subplots(2, 2)<br># ax[0,0], ax[0,1], ax[1,0], ax[1,1]</code></div>
+`},
+{cat:"Slide Functions",q:"What does ax.set_xlim() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>ax.set_xlim()</code> Sets horizontal axis limits on a Matplotlib axes object.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>ax.set_xlim(0, 10)  # show only x from 0 to 10</code></div>
+`},
+{cat:"Slide Functions",q:"What does ax.set_ylim() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>ax.set_ylim()</code> Sets vertical axis limits on a Matplotlib axes object.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>ax.set_ylim(-5, 5)  # clamp visible y-range</code></div>
+`},
+{cat:"Slide Functions",q:"What does ax.add_patch() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>ax.add_patch()</code> Adds a patch shape (like rectangles) to an axes.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>rect = Rectangle((1,1), 2, 3)<br>ax.add_patch(rect)</code></div>
+`},
+{cat:"Slide Functions",q:"What does canvas.drawRect() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>canvas.drawRect()</code> Draws a rectangle patch on a graphics canvas.</div>
+`},
+{cat:"Slide Functions",q:"What does canvas.drawImage() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>canvas.drawImage()</code> Draws an image onto a canvas.</div>
+`},
+{cat:"Slide Functions",q:"What does canvas.setFill() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>canvas.setFill()</code> Sets fill color/style for subsequent canvas shapes.</div>
+`},
+{cat:"Slide Functions",q:"What does canvas.setOutline() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>canvas.setOutline()</code> Sets outline color/style for subsequent canvas shapes.</div>
+`},
+{cat:"Slide Functions",q:"What does addItem() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>addItem()</code> Custom class method used to add an item/value to object state.</div>
+`},
+{cat:"Slide Functions",q:"What does getTotal() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>getTotal()</code> Custom class method that returns accumulated total value.</div>
+`},
+{cat:"Slide Functions",q:"What does getCount() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>getCount()</code> Custom class method that returns number of tracked items.</div>
+`},
+{cat:"Slide Functions",q:"What does getValue() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>getValue()</code> Custom class method that returns current stored value/state.</div>
+`},
+{cat:"Slide Functions",q:"What does click() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>click()</code> Custom class method used in counter/tally examples to increment state.</div>
+`},
+{cat:"Slide Functions",q:"What does reset() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>reset()</code> Custom class method that restores object state to initial value.</div>
+`},
+
+{cat:"Slide Functions",q:"What does math.degrees() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>math.degrees(x)</code> converts an angle from radians to degrees.</div>
+`},
+{cat:"Slide Functions",q:"What does math.radians() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>math.radians(x)</code> converts an angle from degrees to radians.</div>
+`},
+{cat:"Slide Functions",q:"What does math.log() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>math.log(x[, base])</code> returns the logarithm of <code>x</code> (natural log by default, or base-<code>base</code> if provided).</div>
+`},
+{cat:"Slide Functions",q:"What is math.pi?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>math.pi</code> is the constant value of pi (~3.14159).</div>
+`},
+{cat:"Slide Functions",q:"What is math.e?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>math.e</code> is Euler's constant (~2.71828), the base of natural logs.</div>
+`},
+{cat:"Slide Functions",q:"What does np.full() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.full(shape, value)</code> creates an array of a given shape with every element set to the same value.</div>
+`},
+{cat:"Slide Functions",q:"What does np.dot() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.dot(a,b)</code> computes dot product / matrix multiplication behavior depending on array dimensions.</div>
+<div class="lbl">Visual</div>
+<div class="eq-block"><code>np.dot([1,2,3],[4,5,6]) -> 32</code></div>
+`},
+{cat:"Slide Functions",q:"What does np.copy() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>np.copy(a)</code> creates an independent copy so edits to the new array do not change the original.</div>
+`},
+{cat:"Slide Functions",q:"What does shape mean in NumPy?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>a.shape</code> gives an array's dimensions as a tuple, e.g., <code>(rows, cols)</code> for 2D arrays.</div>
+`},
+{cat:"Slide Functions",q:"What does tuple() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>tuple(iterable)</code> creates a tuple (immutable sequence) from an iterable.</div>
+`},
+{cat:"Slide Functions",q:"What does replace() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>s.replace(old, new[, count])</code> returns a new string with substring replacements.</div>
+`},
+{cat:"Slide Functions",q:"What does count() do for strings?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>s.count(sub)</code> returns the number of non-overlapping occurrences of <code>sub</code>.</div>
+`},
+{cat:"Slide Functions",q:"What does startswith() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>s.startswith(prefix)</code> checks whether a string begins with a given prefix.</div>
+`},
+{cat:"Slide Functions",q:"What does endswith() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>s.endswith(suffix)</code> checks whether a string ends with a given suffix.</div>
+`},
+{cat:"Slide Functions",q:"What does isalpha() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>s.isalpha()</code> returns True if all characters are alphabetic and the string is non-empty.</div>
+`},
+{cat:"Slide Functions",q:"What does islower() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>s.islower()</code> returns True if the string has cased letters and all are lowercase.</div>
+`},
+{cat:"Slide Functions",q:"What does splitlines() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>s.splitlines()</code> splits text into lines at line boundaries.</div>
+`},
+{cat:"Slide Functions",q:"What does readlines() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>f.readlines()</code> reads all lines from a file into a list of strings.</div>
+`},
+{cat:"Slide Functions",q:"What does csv.reader() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>csv.reader(file)</code> returns an iterator that yields each CSV row as a list of strings.</div>
+`},
+{cat:"Slide Functions",q:"What does next() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>next(iterator)</code> returns the next item from an iterator (or raises StopIteration).</div>
+`},
+{cat:"Slide Functions",q:"What does csv.writer() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>csv.writer(file)</code> returns a writer object for creating CSV-formatted output.</div>
+`},
+{cat:"Slide Functions",q:"What does writerow() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>writer.writerow(seq)</code> writes one CSV row from a sequence of values.</div>
+`},
+{cat:"Slide Functions",q:"What does plt.bar() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>plt.bar(x, height)</code> draws a bar chart.</div>
+`},
+{cat:"Slide Functions",q:"What does plt.axis() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>plt.axis()</code> gets/sets axis limits or mode (e.g., <code>'equal'</code>, <code>'off'</code>).</div>
+`},
+{cat:"Slide Functions",q:"What does plt.show() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>plt.show()</code> displays figure windows (or renders plots in interactive environments).</div>
+`},
+{cat:"Slide Functions",q:"What does plt.subplot() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>plt.subplot(r,c,i)</code> creates/selects a subplot in an <code>r x c</code> grid at index <code>i</code>.</div>
+`},
+{cat:"Slide Functions",q:"What does plt.grid() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>plt.grid(True/False)</code> toggles grid lines on the current axes.</div>
+`},
+{cat:"Slide Functions",q:"What does plt.xlim() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>plt.xlim()</code> gets/sets x-axis limits.</div>
+`},
+{cat:"Slide Functions",q:"What does plt.title() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>plt.title(label)</code> sets the title of the current axes.</div>
+`},
+{cat:"Slide Functions",q:"What does plt.xlabel() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>plt.xlabel(label)</code> sets the x-axis label.</div>
+`},
+{cat:"Slide Functions",q:"What does plt.ylabel() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>plt.ylabel(label)</code> sets the y-axis label.</div>
+`},
+{cat:"Slide Functions",q:"What does plt.legend() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>plt.legend()</code> adds a legend for labeled plot elements.</div>
+`},
+{cat:"Slide Functions",q:"What does plt.xticks() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>plt.xticks()</code> gets/sets x-axis tick positions and labels.</div>
+`},
+{cat:"Slide Functions",q:"What does plt.gca() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>plt.gca()</code> returns the current Axes object (creating one if needed).</div>
+`},
+{cat:"Slide Functions",q:"What does invert_yaxis() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>ax.invert_yaxis()</code> flips the y-axis direction.</div>
+`},
+{cat:"Slide Functions",q:"What does Rectangle() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>Rectangle(xy,w,h)</code> creates a rectangular patch object for plotting.</div>
+`},
+{cat:"Slide Functions",q:"What does Circle() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>Circle(xy,r)</code> creates a circular patch object.</div>
+`},
+{cat:"Slide Functions",q:"What does Ellipse() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>Ellipse(xy,w,h)</code> creates an ellipse patch object.</div>
+`},
+{cat:"Slide Functions",q:"What does set_visible() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>artist.set_visible(True/False)</code> shows or hides a Matplotlib artist.</div>
+`},
+{cat:"Slide Functions",q:"What does set_aspect() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>ax.set_aspect(...)</code> controls x/y scaling ratio (e.g., <code>'equal'</code>).</div>
+`},
+{cat:"Slide Functions",q:"What does set_facecolor() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>ax.set_facecolor(color)</code> sets axes background color.</div>
+`},
+{cat:"Slide Functions",q:"What does plt.text() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>plt.text(x,y,s)</code> adds text at data coordinates on a plot.</div>
+`},
+{cat:"Slide Functions",q:"What does plt.imread() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>plt.imread(path)</code> reads an image file into a NumPy array.</div>
+`},
+{cat:"Slide Functions",q:"What does plt.imshow() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>plt.imshow(arr)</code> displays an image array on axes.</div>
+`},
+{cat:"Slide Functions",q:"What does plt.imsave() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>plt.imsave(path, arr)</code> saves image array data directly to a file.</div>
+`},
+{cat:"Slide Functions",q:"What does plt.savefig() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>plt.savefig(path)</code> saves the current figure to disk.</div>
+`},
+{cat:"Slide Functions",q:"What does plt.pie() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>plt.pie(values)</code> creates a pie chart.</div>
+`},
+{cat:"Slide Functions",q:"What does __init__ mean in classes?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>__init__</code> is the class initializer method that sets up object state when a new instance is created.</div>
+`},
+{cat:"Slide Functions",q:"What does match ... case do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>match ... case</code> is structural pattern matching (similar to switch/case) that selects code blocks by pattern.</div>
+`},
+{cat:"Slide Functions",q:"What does the wildcard case _ mean?",a:`
+<div class="lbl">Definition</div>
+<div class="note">In <code>match</code>, <code>case _:</code> is the default fallback that matches anything not matched earlier.</div>
+`},
+{cat:"Slide Functions",q:"What do try/except/finally do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>try</code> wraps risky code, <code>except</code> handles errors, and <code>finally</code> always runs for cleanup.</div>
+`},
+{cat:"Slide Functions",q:"What does raise do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>raise</code> manually throws an exception.</div>
+`},
+{cat:"Slide Functions",q:"What is IOError?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>IOError</code> (modern alias of <code>OSError</code>) indicates file/input-output operation failures.</div>
+`},
+{cat:"Slide Functions",q:"What is RuntimeError?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>RuntimeError</code> is a general exception for runtime failures not covered by a more specific type.</div>
+`},
+{cat:"Slide Functions",q:"What does is / is not do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>is</code> and <code>is not</code> test object identity (same object in memory), not value equality.</div>
+`},
+{cat:"Slide Functions",q:"What does the dot operator . do?",a:`
+<div class="lbl">Definition</div>
+<div class="note">The dot operator accesses attributes/methods, e.g. <code>obj.method</code> or <code>module.function</code>.</div>
+`},
+{cat:"Slide Functions",q:"What does isinstance() do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>isinstance(obj, Class)</code> checks whether an object is an instance of a class (or tuple of classes).</div>
+`},
+
+/* ?? BOOLEAN LOGIC & SELECTION ?????????????????????????? */
+{cat:"Selection & Logic",q:"What is a Boolean expression?",a:`
+<div class="lbl">Definition</div>
+<div class="note">A Boolean expression evaluates to <code>True</code> or <code>False</code> and is used to control decisions in programs.</div>
+`},
+{cat:"Selection & Logic",q:"What does an if statement do?",a:`
+<div class="lbl">Definition</div>
+<div class="note">An <code>if</code> statement executes a block only when its condition is true.</div>
+`},
+{cat:"Selection & Logic",q:"When should elif be used?",a:`
+<div class="lbl">Use case</div>
+<div class="note">Use <code>elif</code> to test multiple alternatives in sequence, selecting the first true condition.</div>
+`},
+{cat:"Selection & Logic",q:"What does else represent in selection?",a:`
+<div class="lbl">Meaning</div>
+<div class="note"><code>else</code> gives the default branch that runs when no previous condition is true.</div>
+`},
+{cat:"Selection & Logic",q:"What is nesting in selection/repetition?",a:`
+<div class="lbl">Definition</div>
+<div class="note">Nesting means placing one control structure inside another, such as an <code>if</code> inside a loop.</div>
+`},
+{cat:"Selection & Logic",q:"What is hand tracing?",a:`
+<div class="lbl">Definition</div>
+<div class="note">Hand tracing is manually stepping through code and tracking variable values to verify logic and detect errors.</div>
+`},
+{cat:"Selection & Logic",q:"Why are test cases important?",a:`
+<div class="lbl">Purpose</div>
+<div class="note">Test cases check expected behavior, expose edge cases, and help confirm code correctness after changes.</div>
+`},
+
+/* ?? LOOPS & VALIDATION ????????????????????????????????? */
+{cat:"Loops",q:"What is a while loop?",a:`
+<div class="lbl">Definition</div>
+<div class="note">A <code>while</code> loop repeats as long as its condition remains true.</div>
+`},
+{cat:"Loops",q:"What is a for loop typically used for?",a:`
+<div class="lbl">Definition</div>
+<div class="note">A <code>for</code> loop iterates over items in a sequence or over a range of integers.</div>
+`},
+{cat:"Loops",q:"What is a sentinel value?",a:`
+<div class="lbl">Definition</div>
+<div class="note">A sentinel value is a special input that signals a loop to stop processing.</div>
+`},
+{cat:"Loops",q:"What is input validation?",a:`
+<div class="lbl">Definition</div>
+<div class="note">Input validation checks whether user input satisfies required rules before the program accepts and uses it.</div>
+`},
+{cat:"Loops",q:"Common infinite-loop cause",a:`
+<div class="lbl">Pitfall</div>
+<div class="note">A loop can become infinite when the loop-control variable is never updated so the stopping condition is never reached.</div>
+`},
+
+/* ?? RANDOMNESS & PERFORMANCE ??????????????????????????? */
+{cat:"Randomness & Timing",q:"Why use random numbers in programs?",a:`
+<div class="lbl">Purpose</div>
+<div class="note">Random numbers support simulation, testing, sampling, and randomized behavior in engineering and data tasks.</div>
+`},
+{cat:"Randomness & Timing",q:"Pseudo-random vs truly random",a:`
+<div class="lbl">Concept</div>
+<div class="note">Python generators are pseudo-random: they produce deterministic sequences that look random and are controlled by a seed.</div>
+`},
+{cat:"Randomness & Timing",q:"Why measure execution time?",a:`
+<div class="lbl">Reason</div>
+<div class="note">Timing code helps compare implementations and identify bottlenecks so programs can be optimized.</div>
+`},
+
+/* ?? FUNCTIONS & MODULARITY ????????????????????????????? */
+{cat:"Functions",q:"What is a user-defined function?",a:`
+<div class="lbl">Definition</div>
+<div class="note">A user-defined function is a reusable block of code written with <code>def</code> to perform a specific task.</div>
+`},
+{cat:"Functions",q:"What are parameters and arguments?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><strong>Parameters</strong> are names in the function definition. <strong>Arguments</strong> are actual values passed when calling the function.</div>
+`},
+{cat:"Functions",q:"What does return do?",a:`
+<div class="lbl">Definition</div>
+<div class="note"><code>return</code> sends a value back to the caller and ends the current function execution.</div>
+`},
+{cat:"Functions",q:"Why organize code modularly?",a:`
+<div class="lbl">Benefit</div>
+<div class="note">Modular organization improves readability, reuse, testing, and maintenance by separating logic into coherent functions.</div>
+`},
+{cat:"Functions",q:"What is local variable scope?",a:`
+<div class="lbl">Definition</div>
+<div class="note">A local variable exists only inside the function where it is created.</div>
+`},
+{cat:"Functions",q:"Why avoid global variables when possible?",a:`
+<div class="lbl">Reason</div>
+<div class="note">Heavy global-variable use increases coupling and makes debugging harder because many parts of the program can change shared state.</div>
+`},
+
+/* ?? DATA STRUCTURES ????????????????????????????????????? */
+{cat:"Data Structures",q:"What is a list in Python?",a:`
+<div class="lbl">Definition</div>
+<div class="note">A list is an ordered, mutable collection of items.</div>
+`},
+{cat:"Data Structures",q:"What is a tuple in Python?",a:`
+<div class="lbl">Definition</div>
+<div class="note">A tuple is an ordered collection that is immutable after creation.</div>
+`},
+{cat:"Data Structures",q:"List vs tuple",a:`
+<div class="lbl">Key difference</div>
+<div class="note">Lists are mutable and suited for changing data; tuples are immutable and suited for fixed records.</div>
+`},
+{cat:"Data Structures",q:"What is a nested list?",a:`
+<div class="lbl">Definition</div>
+<div class="note">A nested list is a list containing other lists, useful for table-like data or grouped structures.</div>
+`},
+{cat:"Data Structures",q:"What is a dictionary?",a:`
+<div class="lbl">Definition</div>
+<div class="note">A dictionary stores key-value pairs for fast lookup by key.</div>
+`},
+{cat:"Data Structures",q:"What is a set?",a:`
+<div class="lbl">Definition</div>
+<div class="note">A set is an unordered collection of unique elements, useful for membership tests and set operations.</div>
+`},
+{cat:"Data Structures",q:"Why combine nested structures?",a:`
+<div class="lbl">Use case</div>
+<div class="note">Nesting lists, sets, and dictionaries enables representation of richer real-world relationships in data processing tasks.</div>
+`},
+
+/* ?? STRINGS & FILES ????????????????????????????????????? */
+{cat:"Strings & Files",q:"What is low-level file I/O?",a:`
+<div class="lbl">Definition</div>
+<div class="note">Low-level file I/O is explicit opening, reading/writing, and closing of files to persist program data.</div>
+`},
+{cat:"Strings & Files",q:"Why is string processing important?",a:`
+<div class="lbl">Reason</div>
+<div class="note">Many inputs are text. String processing lets programs parse, clean, and transform data for computation.</div>
+`},
+{cat:"Strings & Files",q:"What is a CSV file?",a:`
+<div class="lbl">Definition</div>
+<div class="note">A CSV file stores tabular data as text rows where fields are separated by commas.</div>
+`},
+{cat:"Strings & Files",q:"What is hypertext on the web?",a:`
+<div class="lbl">Definition</div>
+<div class="note">Hypertext is linked text content where documents reference each other through navigable links.</div>
+`},
+
+/* ?? GRAPHICS & IMAGES ??????????????????????????????????? */
+{cat:"Graphics",q:"What is sequential flow in image patches?",a:`
+<div class="lbl">Concept</div>
+<div class="note">Sequential flow applies patch operations in order, where each step modifies the image state produced by prior steps.</div>
+`},
+{cat:"Graphics",q:"What is a true-colour pixel?",a:`
+<div class="lbl">Definition</div>
+<div class="note">A true-colour pixel is represented by three channels (RGB), each controlling red, green, and blue intensity.</div>
+`},
+{cat:"Graphics",q:"What is image synthesis using patches?",a:`
+<div class="lbl">Definition</div>
+<div class="note">Image synthesis with patches builds complex pictures by composing many smaller generated or transformed regions.</div>
+`},
+
+/* ?? OOP & EXCEPTIONS ???????????????????????????????????? */
+{cat:"OOP & Exceptions",q:"What is an object in OOP?",a:`
+<div class="lbl">Definition</div>
+<div class="note">An object packages state (properties) and behavior (methods) into one program entity.</div>
+`},
+{cat:"OOP & Exceptions",q:"Property vs method",a:`
+<div class="lbl">Difference</div>
+<div class="note">A property stores data associated with an object. A method is a function associated with that object.</div>
+`},
+{cat:"OOP & Exceptions",q:"What is a class?",a:`
+<div class="lbl">Definition</div>
+<div class="note">A class is a blueprint used to create objects with shared structure and behavior.</div>
+`},
+{cat:"OOP & Exceptions",q:"What is an exception object?",a:`
+<div class="lbl">Definition</div>
+<div class="note">An exception object represents an error condition raised during execution.</div>
+`},
+{cat:"OOP & Exceptions",q:"What is an exception handler?",a:`
+<div class="lbl">Definition</div>
+<div class="note">An exception handler (such as <code>try/except</code>) catches and manages runtime errors to keep programs robust.</div>
+`},
+{cat:"OOP & Exceptions",q:"Syntax vs runtime vs logic error",a:`
+<div class="lbl">Debugging categories</div>
+<div class="note"><strong>Syntax:</strong> code cannot run. <strong>Runtime:</strong> error while running. <strong>Logic:</strong> runs but gives wrong result.</div>
+`},
+{cat:"OOP & Exceptions",q:"Why solve simpler problems first?",a:`
+<div class="lbl">Software-engineering principle</div>
+<div class="note">Breaking a hard task into smaller solvable pieces reduces risk and makes debugging and verification easier.</div>
+`}
+];
+
+/* ================================================================
+   APP STATE
+   ================================================================ */
+const CATS = ['All', ...new Set(ALL.map(c => c.cat))];
+let cards = [...ALL], idx = 0, flipped = false, activeCat = 'All';
+let currentAnimFrame = null, currentRenderer = null, currentMeshes = [];
+let activeParams = {};
+let polarZoom = 1.0;
+let themeMode = 'dark';
+
+/* ================================================================
+   RENDER
+   ================================================================ */
+function render() {
+  cleanup3D();
+  const card = cards[idx];
+  const pct = ((idx + 1) / cards.length * 100).toFixed(1);
+
+  let appHTML = `
+    <header class="site-header">
+      <div class="site-title">ENCMP <span>100</span></div>
+      <div class="header-tools">
+        <div class="kbd-hint">
+          <kbd>←</kbd><kbd>→</kbd> navigate &nbsp; <kbd>space</kbd> flip
+        </div>
+        <button class="theme-btn" onclick="toggleTheme()">${themeMode === 'dark' ? '☀ light' : '🌙 dark'}</button>
+      </div>
+    </header>
+
+    <div class="cats">
+      ${CATS.map(c => `<button class="cat-btn${activeCat===c?' active':''}" onclick="setCat('${c}')">${c}</button>`).join('')}
+    </div>
+
+    <div class="card-scene" onclick="if(!flipped) flip()">
+      <div class="card-inner${flipped?' flipped':''}">
+        <div class="face front">
+          <span class="front-badge">${card.cat}</span>
+          <div class="front-q">${card.q}</div>
+          <span class="flip-cue">tap to reveal</span>
+        </div>
+        <div class="face back">
+          <div class="back-content">${card.a}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress-row">
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="progress-label">${idx+1} / ${cards.length}</div>
+    </div>
+
+    <div class="nav">
+      <button class="nav-btn" onclick="nav(-1)">← prev</button>
+      <span class="nav-counter">${idx+1} / ${cards.length}</span>
+      <button class="nav-btn" onclick="nav(1)">next →</button>
+      <button class="shuffle-btn" onclick="shuffle()">⇌ shuffle</button>
+    </div>
+    
+    <div class="footer-note">
+        Made for ENCMP 100 review
+    </div>
+  `;
+
+  document.getElementById('app').innerHTML = appHTML;
+
+  // Inject sliders if params exist and card is flipped
+  if (flipped && card.params) {
+    activeParams = { ...card.params };
+    let sHTML = '<div class="sliders-row" onclick="event.stopPropagation()">';
+    for (let p in card.params) {
+      sHTML += `<div class="slider-group">
+                  <label>${p} = <span id="val-${p}">${activeParams[p].toFixed(1)}</span></label>
+                  <input type="range" min="${card.pRange[p][0]}" max="${card.pRange[p][1]}" step="${card.pRange[p][2]}" value="${activeParams[p]}" oninput="updateParam('${p}', parseFloat(this.value), '${card.surface3d ? '3d' : '2d'}', '${card.surface3d || card.polarCurve}')">
+                </div>`;
+    }
+    sHTML += '</div>';
+
+    setTimeout(() => {
+      const wrap = document.querySelector('.surface3d-wrap') || document.querySelector('.polar-wrap');
+      if (wrap) wrap.insertAdjacentHTML('beforeend', sHTML);
+    }, 0);
+  }
+
+  // Render KaTeX
+  try {
+    renderMathInElement(document.getElementById('app'), {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ],
+      throwOnError: false,
+      strict: false,
+    });
+  } catch(e) {}
+
+  // Init interactive elements
+  if (flipped) {
+    setTimeout(() => {
+      if (card.surface3d) {
+        const mount = document.getElementById('s3d-mount');
+        if (mount) init3D(mount, card.surface3d);
+      }
+      if (card.polarCurve) {
+        const cv = document.getElementById('polar-cv');
+        if (cv) {
+          drawPolarCurve(cv, card.polarCurve);
+          cv.addEventListener('wheel', e => {
+            e.preventDefault();
+            polarZoom += e.deltaY * -0.002;
+            polarZoom = Math.max(0.1, Math.min(polarZoom, 10.0));
+            drawPolarCurve(cv, card.polarCurve);
+          }, {passive: false});
+        }
+      }
+    }, 600);
+  }
+}
+
+function flip() { flipped = !flipped; polarZoom = 1.0; render(); }
+function nav(d) { idx = (idx + d + cards.length) % cards.length; flipped = false; polarZoom = 1.0; render(); }
+function setCat(c) {
+  activeCat = c;
+  cards = c === 'All' ? [...ALL] : ALL.filter(x => x.cat === c);
+  idx = 0; flipped = false; polarZoom = 1.0; render();
+}
+function shuffle() {
+  const a = cards;
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  idx = 0; flipped = false; polarZoom = 1.0; render();
+}
+function applyTheme(mode, persist = true) {
+  themeMode = mode === 'light' ? 'light' : 'dark';
+  document.body.classList.toggle('light', themeMode === 'light');
+  if (persist) {
+    try { localStorage.setItem('encmp_flashcards_theme', themeMode); } catch (e) {}
+  }
+}
+function initTheme() {
+  let saved = 'dark';
+  try { saved = localStorage.getItem('encmp_flashcards_theme') || 'dark'; } catch (e) {}
+  applyTheme(saved, false);
+}
+function toggleTheme() {
+  applyTheme(themeMode === 'dark' ? 'light' : 'dark');
+  render();
+}
+
+window.updateParam = function(key, val, type, shapeType) {
+  activeParams[key] = val;
+  document.getElementById(`val-${key}`).innerText = val.toFixed(1);
+  if (type === '3d') update3DGeometry(shapeType);
+  if (type === '2d') drawPolarCurve(document.getElementById('polar-cv'), shapeType);
+}
+
+/* keyboard navigation */
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft')  { nav(-1); }
+  else if (e.key === 'ArrowRight') { nav(1); }
+  else if (e.key === ' ' && e.target.tagName !== 'INPUT') { e.preventDefault(); flip(); }
+  else if ((e.key === 't' || e.key === 'T') && e.target.tagName !== 'INPUT') { toggleTheme(); }
+});
+
+/* ================================================================
+   THREE.JS 3D SURFACES
+   ================================================================ */
+function cleanup3D() {
+  if (currentAnimFrame) { cancelAnimationFrame(currentAnimFrame); currentAnimFrame = null; }
+  if (currentRenderer) { currentRenderer.dispose(); currentRenderer = null; }
+  currentMeshes = [];
+}
+
+function createSurfaceBufferGeo(type, params) {
+  const N = 64;
+  const verts = [], idx2 = [];
+  const p = params || {a:1, b:1, c:1};
+  
+  // Avoid division by exactly zero for Quadrics
+  const a = p.a === 0 ? 0.001 : p.a;
+  const b = p.b === 0 ? 0.001 : p.b;
+  const c = p.c === 0 ? 0.001 : p.c;
+
+  function grid(fn) {
+    for (let i = 0; i <= N; i++) {
+      for (let j = 0; j <= N; j++) {
+        const [x,y,z] = fn(i/N, j/N);
+        verts.push(x, y, z);
+      }
+    }
+    for (let i = 0; i < N; i++) {
+      for (let j = 0; j < N; j++) {
+        const i1 = i*(N+1)+j, i2 = i1+N+1;
+        idx2.push(i1,i2,i1+1, i2,i2+1,i1+1);
+      }
+    }
+  }
+
+  const fns = {
+    ellipsoid: (u, v) => {
+      const th = u*2*Math.PI, ph = v*Math.PI - Math.PI/2;
+      return [p.a*Math.cos(ph)*Math.cos(th), p.b*Math.cos(ph)*Math.sin(th), p.c*Math.sin(ph)];
+    },
+    ellipticParaboloid: (u, v) => {
+      const x = (u-0.5)*12, y = (v-0.5)*12;
+      return [x, y, p.c*((x*x)/(a*a) + (y*y)/(b*b)) - 2.0];
+    },
+    hyperbolicParaboloid: (u, v) => {
+      const x = (u-0.5)*12, y = (v-0.5)*12;
+      return [x, y, p.c*((x*x)/(a*a) - (y*y)/(b*b))];
+    },
+    cone: (u, v) => {
+      const th = u*2*Math.PI, h = (v-0.5)*3.6*Math.abs(c);
+      return [Math.abs(h)*(p.a/c)*Math.cos(th), Math.abs(h)*(p.b/c)*Math.sin(th), h];
+    },
+    hyperboloidOne: (u, v) => {
+      const th = u*2*Math.PI, t = (v-0.5)*3.2;
+      return [p.a*Math.cosh(t)*Math.cos(th), p.b*Math.cosh(t)*Math.sin(th), p.c*Math.sinh(t)];
+    }
+  };
+
+  if (type === 'hyperboloidTwo') return null;
+
+  grid(fns[type] || fns.ellipsoid);
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
+  geo.setIndex(idx2);
+  geo.computeVertexNormals();
+  return geo;
+}
+
+function buildTwoSheetGeo(params) {
+  const N = 48;
+  const geos = [];
+  const p = params || {a:1, b:1, c:1};
+  const c_val = p.c === 0 ? 0.001 : p.c;
+  
+  for (const sign of [1, -1]) {
+    const verts = [], ids = [];
+    for (let i = 0; i <= N; i++) {
+      for (let j = 0; j <= N; j++) {
+        const th = (i/N)*2*Math.PI, t = (j/N)*2.2;
+        verts.push(p.a*Math.sinh(t)*Math.cos(th), p.b*Math.sinh(t)*Math.sin(th), sign*c_val*Math.cosh(t));
+      }
+    }
+    for (let i = 0; i < N; i++) {
+      for (let j = 0; j < N; j++) {
+        const i1 = i*(N+1)+j, i2 = i1+N+1;
+        ids.push(i1,i2,i1+1,i2,i2+1,i1+1);
+      }
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
+    g.setIndex(ids);
+    g.computeVertexNormals();
+    geos.push(g);
+  }
+  return geos;
+}
+
+function update3DGeometry(type) {
+  if (type === 'hyperboloidTwo') {
+    const geos = buildTwoSheetGeo(activeParams);
+    currentMeshes[0].geometry.dispose(); currentMeshes[0].geometry = geos[0];
+    currentMeshes[1].geometry.dispose(); currentMeshes[1].geometry = geos[0];
+    currentMeshes[2].geometry.dispose(); currentMeshes[2].geometry = geos[1];
+    currentMeshes[3].geometry.dispose(); currentMeshes[3].geometry = geos[1];
+  } else {
+    const geo = createSurfaceBufferGeo(type, activeParams);
+    if (geo && currentMeshes[0]) {
+      currentMeshes[0].geometry.dispose(); currentMeshes[0].geometry = geo;
+      currentMeshes[1].geometry.dispose(); currentMeshes[1].geometry = geo;
+    }
+  }
+}
+
+function makeTextSprite(message, color='#9ed8eb') {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = 128; canvas.height = 64; 
+  ctx.font = 'bold 36px system-ui, sans-serif';
+  ctx.fillStyle = color;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(message, 64, 32);
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.needsUpdate = true;
+  const spriteMat = new THREE.SpriteMaterial({ map: texture, depthTest: false, transparent: true });
+  const sprite = new THREE.Sprite(spriteMat);
+  sprite.scale.set(0.6, 0.3, 1);
+  return sprite;
+}
+
+function init3D(container, type) {
+  const isLight = document.body.classList.contains('light');
+  const w = container.clientWidth || 400;
+  const h = parseInt(container.style.height) || 320; 
+  currentMeshes = [];
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(isLight ? 0xe9f2ff : 0x0f1a42);
+
+  const camera = new THREE.PerspectiveCamera(42, w/h, 0.1, 200);
+  let R0 = 7.5;
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(w, h);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  container.innerHTML = '';
+  container.appendChild(renderer.domElement);
+  currentRenderer = renderer;
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+  const dl1 = new THREE.DirectionalLight(0xffffff, 0.8);
+  dl1.position.set(6, 10, 6); scene.add(dl1);
+  const dl2 = new THREE.DirectionalLight(isLight ? 0xbfe2ff : 0x89fff0, 0.5);
+  dl2.position.set(-5,-4,-5); scene.add(dl2);
+
+  const mat = new THREE.MeshPhongMaterial({
+    color: isLight ? 0x35d2c4 : 0x47f5df,
+    emissive: isLight ? 0x0f4f60 : 0x04233a,
+    specular: isLight ? 0xe8fff9 : 0xc6fff6,
+    shininess: 40, side: THREE.DoubleSide,
+    transparent: true, opacity: isLight ? 0.88 : 0.85,
+  });
+  const wireMat = new THREE.LineBasicMaterial({color:isLight ? 0x14988f : 0x69fff0, transparent:true, opacity:0.25});
+
+  const axMat = new THREE.LineBasicMaterial({color:isLight ? 0x6d8fbf : 0x5f8fb4});
+  const axPts = [-3.5,0,0, 3.5,0,0,  0,-3.5,0, 0,3.5,0,  0,0,-3.5, 0,0,3.5];
+  const axGeo = new THREE.BufferGeometry();
+  axGeo.setAttribute('position', new THREE.Float32BufferAttribute(axPts,3));
+  scene.add(new THREE.LineSegments(axGeo, axMat));
+
+  const tickGeoX = new THREE.BoxGeometry(0.04, 0.15, 0.04);
+  const tickGeoY = new THREE.BoxGeometry(0.15, 0.04, 0.04);
+  const tickGeoZ = new THREE.BoxGeometry(0.04, 0.04, 0.15);
+  const tickMat = new THREE.MeshBasicMaterial({color: isLight ? 0x6d8fbf : 0x5f8fb4});
+
+  [-2, -1, 1, 2].forEach(v => {
+    let tX = new THREE.Mesh(tickGeoX, tickMat); tX.position.set(v, 0, 0); scene.add(tX);
+    let sX = makeTextSprite(v.toString()); sX.position.set(v, -0.25, 0); scene.add(sX);
+    let tY = new THREE.Mesh(tickGeoY, tickMat); tY.position.set(0, v, 0); scene.add(tY);
+    let sY = makeTextSprite(v.toString()); sY.position.set(-0.25, v, 0); scene.add(sY);
+    let tZ = new THREE.Mesh(tickGeoZ, tickMat); tZ.position.set(0, 0, v); scene.add(tZ);
+    let sZ = makeTextSprite(v.toString()); sZ.position.set(0, -0.25, v); scene.add(sZ);
+  });
+
+  let lX = makeTextSprite('x', isLight ? '#9a6e10' : '#f7ecb1'); lX.position.set(3.6, 0.2, 0); scene.add(lX);
+  let lY = makeTextSprite('y', isLight ? '#008f89' : '#69fff0'); lY.position.set(0.2, 3.6, 0); scene.add(lY);
+  let lZ = makeTextSprite('z', isLight ? '#2b4d7f' : '#d8ecff'); lZ.position.set(0, 0.2, 3.6); scene.add(lZ);
+
+  if (type === 'hyperboloidTwo') {
+    buildTwoSheetGeo(activeParams).forEach(g => {
+      let m = new THREE.Mesh(g, mat.clone());
+      let mw = new THREE.LineSegments(new THREE.WireframeGeometry(g), wireMat.clone());
+      scene.add(m); scene.add(mw);
+      currentMeshes.push(m, mw);
+    });
+  } else {
+    const geo = createSurfaceBufferGeo(type, activeParams);
+    if (geo) {
+      let m = new THREE.Mesh(geo, mat);
+      let mw = new THREE.LineSegments(new THREE.WireframeGeometry(geo), wireMat);
+      scene.add(m); scene.add(mw);
+      currentMeshes.push(m, mw);
+    }
+  }
+
+  let isDragging = false, userHasInteracted = false, lastX = 0, lastY = 0;
+  let theta = 0.6, phi = 1.05;
+  function updateCam() {
+    camera.position.set(
+      R0*Math.sin(phi)*Math.cos(theta),
+      R0*Math.cos(phi),
+      R0*Math.sin(phi)*Math.sin(theta)
+    );
+    camera.lookAt(0,0,0);
+  }
+
+  const el = renderer.domElement;
+  
+  el.addEventListener('wheel', e => {
+    e.preventDefault();
+    R0 += e.deltaY * 0.02;
+    R0 = Math.max(1, Math.min(R0, 50));
+    updateCam();
+  }, {passive: false});
+
+  el.addEventListener('mousedown', e => { e.stopPropagation(); isDragging=true; userHasInteracted=true; lastX=e.clientX; lastY=e.clientY; });
+  window.addEventListener('mouseup', () => { isDragging=false; });
+  el.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    theta -= (e.clientX-lastX)*0.013;
+    phi = Math.max(0.12, Math.min(Math.PI-0.12, phi+(e.clientY-lastY)*0.013));
+    lastX=e.clientX; lastY=e.clientY; updateCam();
+  });
+  el.addEventListener('touchstart', e => { e.stopPropagation(); userHasInteracted=true; lastX=e.touches[0].clientX; lastY=e.touches[0].clientY; isDragging=true; }, {passive:true});
+  el.addEventListener('touchmove', e => {
+    if(!isDragging) return;
+    theta -= (e.touches[0].clientX-lastX)*0.013;
+    phi = Math.max(0.12, Math.min(Math.PI-0.12, phi+(e.touches[0].clientY-lastY)*0.013));
+    lastX=e.touches[0].clientX; lastY=e.touches[0].clientY; updateCam();
+  }, {passive:true});
+  el.addEventListener('touchend', ()=>isDragging=false);
+
+  updateCam();
+
+  function animate() {
+    currentAnimFrame = requestAnimationFrame(animate);
+    if (!userHasInteracted) { theta += 0.0045; updateCam(); }
+    renderer.render(scene, camera);
+  }
+  animate();
+}
+
+/* ================================================================
+   POLAR CURVE CANVAS
+   ================================================================ */
+function drawPolarCurve(canvas, type) {
+  if(!canvas) return;
+  const isLight = document.body.classList.contains('light');
+  const W = canvas.parentElement.clientWidth || 400;
+  const H = canvas.parentElement.clientHeight || 300; 
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  const cBg = isLight ? '#e9f2ff' : '#0f1a42';
+  const cGrid = isLight ? '#acc6ea' : '#33486d';
+  const cTick = isLight ? '#5f7ca8' : '#9db0cd';
+  const cAxisLbl = isLight ? '#2b4d7f' : '#d4deee';
+  const cTeal = isLight ? '#008f89' : '#69fff0';
+  const cGold = isLight ? '#9a6e10' : '#f7ecb1';
+  ctx.fillStyle = cBg;
+  ctx.fillRect(0,0,W,H);
+
+  const p = activeParams;
+
+  const configs = {
+    circles_cardioids: [
+      { label:'r = a cosθ (circle)', cx:W*0.27, cy:H/2, scale:H*0.28, fn: t => p.a*Math.cos(t), color:cGold, steps:360 },
+      { label:'r = a(1+cosθ) (cardioid)', cx:W*0.73, cy:H/2, scale:H*0.14, fn: t => p.a*(1+Math.cos(t)), color:cTeal, steps:360 },
+    ],
+    limacon: [
+      { label:'r = a + b cosθ', cx:W*0.5, cy:H/2, scale:H*0.12, fn: t => p.a + p.b*Math.cos(t), color:cTeal, steps:360 },
+    ],
+    roses: [
+      { label:'r = cos(nθ)', cx:W*0.5, cy:H/2, scale:H*0.35, fn: t => Math.cos(p.n*t), color:cGold, steps:720 },
+    ],
+    lemniscate: [
+      { label:'r² = a² cos(2θ)', cx:W*0.5, cy:H/2, scale:H*0.30, fn: t => { const v=p.a*p.a*Math.cos(2*t); return v>=0?Math.sqrt(v):null; }, color:cTeal, steps:720 },
+    ],
+  };
+
+  const curves = configs[type] || [];
+
+  curves.forEach(c => {
+    const scale = c.scale * polarZoom;
+
+    ctx.strokeStyle = cGrid;
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(0, c.cy); ctx.lineTo(W, c.cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(c.cx, 0); ctx.lineTo(c.cx, H); ctx.stroke();
+
+    ctx.fillStyle = cTick; ctx.font = '500 11px system-ui, sans-serif'; ctx.textBaseline = 'middle';
+    const tickVals = [-10, -8, -6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6, 8, 10];
+    tickVals.forEach(v => {
+        let px = c.cx + v * scale;
+        let py = c.cy - v * scale;
+        
+        if(px > 0 && px < W) {
+            ctx.beginPath(); ctx.moveTo(px, c.cy - 4); ctx.lineTo(px, c.cy + 4); ctx.stroke();
+            ctx.textAlign = 'center'; ctx.fillText(v, px, c.cy + 14);
+        }
+        if(py > 0 && py < H) {
+            ctx.beginPath(); ctx.moveTo(c.cx - 4, py); ctx.lineTo(c.cx + 4, py); ctx.stroke();
+            ctx.textAlign = 'right'; ctx.fillText(v, c.cx - 8, py);
+        }
+    });
+
+    ctx.fillStyle = cAxisLbl; ctx.font = 'italic 500 13px system-ui, sans-serif';
+    ctx.textAlign = 'right'; ctx.fillText('x', W - 10, c.cy - 12);
+    ctx.textAlign = 'right'; ctx.fillText('y', c.cx - 10, 15);
+
+    ctx.fillStyle = cAxisLbl; ctx.font = '500 12px system-ui, sans-serif';
+    ctx.textAlign = 'center'; ctx.fillText(c.label, c.cx, c.cy + H*0.44);
+
+    ctx.strokeStyle = c.color;
+    ctx.lineWidth = 2.0;
+    ctx.beginPath();
+    let started = false;
+    for (let i = 0; i <= c.steps; i++) {
+      const t = (i / c.steps) * 2 * Math.PI;
+      const r = c.fn(t);
+      if (r === null || isNaN(r)) { started = false; continue; }
+      const x = c.cx + r * Math.cos(t) * scale;
+      const y = c.cy - r * Math.sin(t) * scale;
+      if (!started) { ctx.moveTo(x, y); started = true; }
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  });
+}
+
+/* ================================================================
+   START
+   ================================================================ */
+initTheme();
+render();
+</script>
+</body>
+</html>
