@@ -358,21 +358,21 @@ const ALL = [
 /* ?? PYTHON BASICS ????????????????????????????????????? */
 {cat:"Python Basics",q:"What is an assignment statement in Python?",a:`
 <div class="lbl">Definition</div>
-<div class="note">An assignment statement stores a computed value in a variable name so it can be used later in the program.</div>
+<div class="note">An assignment statement saves a value into a variable so you can use that value later.</div>
 <div class="lbl">Example</div>
 <div class="eq-block"><code>x = 3 * t + 1</code></div>
 `},
 {cat:"Python Basics",q:"Expression vs statement",a:`
 <div class="lbl">Key distinction</div>
-<div class="note">An <strong>expression</strong> produces a value. A <strong>statement</strong> performs an action, such as assignment, branching, or looping.</div>
+<div class="note">An <strong>expression</strong> gives you a value. A <strong>statement</strong> tells Python to do something (like save a value, make a decision, or repeat code).</div>
 `},
 {cat:"Python Basics",q:"What is a variable?",a:`
 <div class="lbl">Definition</div>
-<div class="note">A variable is a named reference to a value. Its value can change as the program executes.</div>
+<div class="note">A variable is a named storage spot for data. The value in that spot can change while the program runs.</div>
 `},
 {cat:"Python Basics",q:"What are standard math functions used for?",a:`
 <div class="lbl">Purpose</div>
-<div class="note">Standard math functions (such as square root, trig, and logarithms) let programs evaluate mathematical formulas accurately and compactly.</div>
+<div class="note">Standard math functions (like square root, sine/cosine, and logarithms) help you write math formulas clearly and correctly.</div>
 `},
 {cat:"Python Basics",q:"What is input in a program?",a:`
 <div class="lbl">Definition</div>
@@ -391,59 +391,31 @@ const ALL = [
 /* ?? NUMPY & VECTORS ???????????????????????????????????? */
 {cat:"NumPy & Vectors",q:"What is a vectorized operation?",a:`
 <div class="lbl">Definition</div>
-<div class="note">A vectorized operation applies one operation to every element of an array without writing an explicit Python loop.</div>
+<div class="note">A vectorized operation does the same math to all values in an array at once, so you do not need to write a loop yourself.</div>
 `},
 {cat:"NumPy & Vectors",q:"What is broadcasting?",a:`
 <div class="lbl">Definition</div>
-<div class="note">Broadcasting is NumPy's rule-based way to apply operations between arrays of different compatible shapes by virtually expanding dimensions.</div>
+<div class="note">Broadcasting lets NumPy combine arrays of different sizes (when their shapes fit) by repeating values automatically.</div>
 `},
 {cat:"NumPy & Vectors",q:"Entrywise vs non-entrywise array operations",a:`
 <div class="lbl">Difference</div>
-<div class="note"><strong>Entrywise</strong> operations act element-by-element. <strong>Non-entrywise</strong> operations include matrix multiplication and other linear algebra operations.</div>
+<div class="note"><strong>Entrywise</strong> means "value by value." <strong>Non-entrywise</strong> combines rows and columns (for example, matrix multiplication).</div>
 `},
 {cat:"NumPy & Vectors",q:"What is matrix multiplication used for?",a:`
 <div class="lbl">Concept</div>
-<div class="note">Matrix multiplication combines rows and columns to model linear transformations and systems used across engineering computations.</div>
+<div class="note">Matrix multiplication combines rows and columns to transform data and solve many engineering math problems.</div>
 `},
 {cat:"NumPy & Vectors",q:"Why use plotting with stored programs?",a:`
 <div class="lbl">Reason</div>
 <div class="note">Stored programs make plotting reproducible and editable, so you can rerun analysis and regenerate figures consistently.</div>
 `},
-{cat:"NumPy & Matplotlib",q:"What does np.array(...) do?",a:`
-<div class="lbl">Definition</div>
-<div class="note"><code>np.array(...)</code> creates a NumPy array from list-like input so you can do vectorized numeric operations.</div>
-`},
-{cat:"NumPy & Matplotlib",q:"What is np.ones(shape) used for?",a:`
-<div class="lbl">Definition</div>
-<div class="note"><code>np.ones(shape)</code> creates an array filled with 1s, often used for initialization or testing.</div>
-`},
-{cat:"NumPy & Matplotlib",q:"What is np.zeros(shape) used for?",a:`
-<div class="lbl">Definition</div>
-<div class="note"><code>np.zeros(shape)</code> creates an array filled with 0s, useful for empty buffers and accumulators.</div>
-`},
 {cat:"NumPy & Matplotlib",q:"What does np.arange(...) generate?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.arange(start, stop, step)</code> generates evenly spaced values in a half-open interval, similar to <code>range</code> but as an array.</div>
+<div class="note"><code>np.arange(start, stop, step)</code> makes values from <code>start</code> up to (but not including) <code>stop</code>, spaced by <code>step</code>.</div>
 `},
 {cat:"NumPy & Matplotlib",q:"What does np.random provide?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.random</code> provides pseudo-random number generation for simulation, sampling, and randomized experiments.</div>
-`},
-{cat:"NumPy & Matplotlib",q:"What does np.reshape(...) do?",a:`
-<div class="lbl">Definition</div>
-<div class="note"><code>np.reshape(...)</code> changes an array's dimensions without changing its data, as long as total element count stays the same.</div>
-`},
-{cat:"NumPy & Matplotlib",q:"What does np.transpose(...) do?",a:`
-<div class="lbl">Definition</div>
-<div class="note"><code>np.transpose(...)</code> swaps array axes (for 2D arrays, rows and columns are flipped).</div>
-`},
-{cat:"NumPy & Matplotlib",q:"What is plt.plot(...) used for?",a:`
-<div class="lbl">Definition</div>
-<div class="note"><code>plt.plot(...)</code> draws line plots, typically to visualize relationships or trends in numeric data.</div>
-`},
-{cat:"NumPy & Matplotlib",q:"What is plt.subplots(...) used for?",a:`
-<div class="lbl">Definition</div>
-<div class="note"><code>plt.subplots(...)</code> creates a figure and one or more axes objects, making multi-plot layouts easier to manage.</div>
+<div class="note"><code>np.random</code> gives you random-looking numbers for simulations, testing, and sampling.</div>
 `},
 
 /* ?? SLIDE FUNCTIONS (ONE PER FUNCTION) ???????????????? */
@@ -477,7 +449,7 @@ const ALL = [
 `},
 {cat:"Slide Functions",q:"What does sum() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>sum()</code> Returns the total of numeric values in an iterable.</div>
+<div class="note"><code>sum()</code> adds all numbers in a list (or another collection) and returns the total.</div>
 `},
 {cat:"Slide Functions",q:"What does abs() do?",a:`
 <div class="lbl">Definition</div>
@@ -489,15 +461,15 @@ const ALL = [
 `},
 {cat:"Slide Functions",q:"What does sorted() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>sorted()</code> Returns a new sorted list from an iterable.</div>
+<div class="note"><code>sorted()</code> returns a new list with items in order (small to large, or A to Z by default).</div>
 `},
 {cat:"Slide Functions",q:"What does list() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>list()</code> Creates a list object from an iterable or empty input.</div>
+<div class="note"><code>list()</code> makes a list from another collection, or an empty list if you pass nothing.</div>
 `},
 {cat:"Slide Functions",q:"What does dict() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>dict()</code> Creates a dictionary object from mappings or key-value pairs.</div>
+<div class="note"><code>dict()</code> makes a dictionary, which stores data as key-value pairs (like label -> value).</div>
 `},
 {cat:"Slide Functions",q:"What does set() do?",a:`
 <div class="lbl">Definition</div>
@@ -531,13 +503,13 @@ const ALL = [
 <div class="lbl">Definition</div>
 <div class="note"><code>split()</code> Splits a string into parts using whitespace or a separator.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>'a,b,c'.split(',') -> ['a','b','c']</code></div>
+<div class="eq-block"><code>'a,b,c'.split(',') -> ['a', 'b', 'c']</code></div>
 `},
 {cat:"Slide Functions",q:"What does rsplit() do?",a:`
 <div class="lbl">Definition</div>
 <div class="note"><code>rsplit()</code> Splits a string from the right side (useful for tail fields).</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>'a-b-c'.rsplit('-', 1) -> ['a-b','c']</code></div>
+<div class="eq-block"><code>'a-b-c'.rsplit('-', 1) -> ['a-b', 'c']</code></div>
 `},
 {cat:"Slide Functions",q:"What does strip() do?",a:`
 <div class="lbl">Definition</div>
@@ -575,19 +547,19 @@ const ALL = [
 <div class="lbl">Definition</div>
 <div class="note"><code>append()</code> Adds a new element to the end of a list.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>a=[1,2]; a.append(3) -> [1,2,3]</code></div>
+<div class="eq-block"><code>a = [1, 2]<br>a.append(3)  # a becomes [1, 2, 3]</code></div>
 `},
 {cat:"Slide Functions",q:"What does insert() do?",a:`
 <div class="lbl">Definition</div>
 <div class="note"><code>insert()</code> Inserts an element at a specific list position.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>a=[1,3]; a.insert(1,2) -> [1,2,3]</code></div>
+<div class="eq-block"><code>a = [1, 3]<br>a.insert(1, 2)  # a becomes [1, 2, 3]</code></div>
 `},
 {cat:"Slide Functions",q:"What does pop() do?",a:`
 <div class="lbl">Definition</div>
 <div class="note"><code>pop()</code> Removes and returns an element (list/dict), often last by default.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>a=[10,20,30]; a.pop() -> 30, a=[10,20]</code></div>
+<div class="eq-block"><code>a = [10, 20, 30]<br>a.pop() -> 30, and a becomes [10, 20]</code></div>
 `},
 {cat:"Slide Functions",q:"What does index() do?",a:`
 <div class="lbl">Definition</div>
@@ -605,7 +577,7 @@ const ALL = [
 <div class="lbl">Definition</div>
 <div class="note"><code>get()</code> Retrieves a dictionary value by key with optional default.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>d={'x':1}; d.get('y',0) -> 0</code></div>
+<div class="eq-block"><code>d = {'x': 1}<br>d.get('y', 0) -> 0</code></div>
 `},
 {cat:"Slide Functions",q:"What does items() do?",a:`
 <div class="lbl">Definition</div>
@@ -655,33 +627,33 @@ const ALL = [
 <div class="lbl">Definition</div>
 <div class="note"><code>np.arange()</code> Generates evenly spaced numeric values as a NumPy array.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>np.arange(2, 10, 3) -> [2, 5, 8]</code></div>
+<div class="eq-block"><code>np.arange(2, 10, 3) -> array([2, 5, 8])</code></div>
 `},
 {cat:"Slide Functions",q:"What does np.reshape() do?",a:`
 <div class="lbl">Definition</div>
 <div class="note"><code>np.reshape()</code> Changes array shape without changing total element count.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>[1,2,3,4,5,6] -> reshape(2,3)<br>[[1,2,3],<br>[4,5,6]]</code></div>
+<div class="eq-block"><code>a = np.array([1, 2, 3, 4, 5, 6])<br>a.reshape(2, 3) -> array([[1, 2, 3], [4, 5, 6]])</code></div>
 `},
 {cat:"Slide Functions",q:"What does np.transpose() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.transpose()</code> Swaps array axes (rows/columns for 2D arrays).</div>
+<div class="note"><code>np.transpose()</code> flips rows and columns in a 2D array.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>[[1,2,3],<br>[4,5,6]] -> transpose<br>[[1,4],<br>[2,5],<br>[3,6]]</code></div>
+<div class="eq-block"><code>a = np.array([[1, 2, 3], [4, 5, 6]])<br>np.transpose(a) -> array([[1, 4], [2, 5], [3, 6]])</code></div>
 `},
 {cat:"Slide Functions",q:"What does flatten() do?",a:`
 <div class="lbl">Definition</div>
 <div class="note"><code>flatten()</code> Returns a 1D copy of array elements.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>[[1,2],[3,4]].flatten() -> [1,2,3,4]</code></div>
+<div class="eq-block"><code>np.array([[1, 2], [3, 4]]).flatten() -> array([1, 2, 3, 4])</code></div>
 `},
 {cat:"Slide Functions",q:"What does np.sum() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.sum()</code> Computes sum over array elements (optionally by axis).</div>
+<div class="note"><code>np.sum()</code> adds numbers in an array (you can also add by row or by column).</div>
 `},
 {cat:"Slide Functions",q:"What does np.mean() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.mean()</code> Computes arithmetic mean of array elements.</div>
+<div class="note"><code>np.mean()</code> returns the average value of the numbers in an array.</div>
 `},
 {cat:"Slide Functions",q:"What does np.max() do?",a:`
 <div class="lbl">Definition</div>
@@ -695,37 +667,37 @@ const ALL = [
 <div class="lbl">Definition</div>
 <div class="note"><code>np.argmax()</code> Returns index of the maximum array value.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>a = [7, 2, 9, 1]<br>np.argmax(a) -> 2</code></div>
+<div class="eq-block"><code>a = np.array([7, 2, 9, 1])<br>np.argmax(a) -> 2</code></div>
 `},
 {cat:"Slide Functions",q:"What does np.argmin() do?",a:`
 <div class="lbl">Definition</div>
 <div class="note"><code>np.argmin()</code> Returns index of the minimum array value.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>a = [7, 2, 9, 1]<br>np.argmin(a) -> 3</code></div>
+<div class="eq-block"><code>a = np.array([7, 2, 9, 1])<br>np.argmin(a) -> 3</code></div>
 `},
 {cat:"Slide Functions",q:"What does np.sort() do?",a:`
 <div class="lbl">Definition</div>
 <div class="note"><code>np.sort()</code> Returns sorted copy of array values.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>np.sort([4,1,3]) -> [1,3,4]</code></div>
+<div class="eq-block"><code>np.sort([4, 1, 3]) -> array([1, 3, 4])</code></div>
 `},
 {cat:"Slide Functions",q:"What does np.argsort() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.argsort()</code> Returns indices that would sort an array.</div>
+<div class="note"><code>np.argsort()</code> returns the positions (indices) you would use to sort an array.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>a = [40, 10, 30]<br>np.argsort(a) = [1, 2, 0]<br># a[[1,2,0]] -> [10,30,40]</code></div>
+<div class="eq-block"><code>a = np.array([40, 10, 30])<br>np.argsort(a) -> array([1, 2, 0])<br>a[[1, 2, 0]] -> array([10, 30, 40])</code></div>
 `},
 {cat:"Slide Functions",q:"What does np.cumsum() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.cumsum()</code> Returns cumulative running sums across array elements.</div>
+<div class="note"><code>np.cumsum()</code> returns running totals as you move through the array.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>np.cumsum([2,3,5]) -> [2,5,10]</code></div>
+<div class="eq-block"><code>np.cumsum([2, 3, 5]) -> array([2, 5, 10])</code></div>
 `},
 {cat:"Slide Functions",q:"What does np.cumprod() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.cumprod()</code> Returns cumulative running products across array elements.</div>
+<div class="note"><code>np.cumprod()</code> returns running products as you move through the array.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>np.cumprod([2,3,5]) -> [2,6,30]</code></div>
+<div class="eq-block"><code>np.cumprod([2, 3, 5]) -> array([2, 6, 30])</code></div>
 `},
 {cat:"Slide Functions",q:"What does np.all() do?",a:`
 <div class="lbl">Definition</div>
@@ -743,11 +715,11 @@ const ALL = [
 <div class="lbl">Definition</div>
 <div class="note"><code>np.clip()</code> Limits values to a specified minimum/maximum range.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>a = [-5, 2, 11]<br>np.clip(a, 0, 9) -> [0, 2, 9]</code></div>
+<div class="eq-block"><code>a = np.array([-5, 2, 11])<br>np.clip(a, 0, 9) -> array([0, 2, 9])</code></div>
 `},
 {cat:"Slide Functions",q:"What does np.abs() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.abs()</code> Returns absolute value elementwise.</div>
+<div class="note"><code>np.abs()</code> gives the absolute value for each number in the array.</div>
 `},
 {cat:"Slide Functions",q:"What does np.square() do?",a:`
 <div class="lbl">Definition</div>
@@ -755,73 +727,73 @@ const ALL = [
 `},
 {cat:"Slide Functions",q:"What does np.sqrt() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.sqrt()</code> Computes square root elementwise.</div>
+<div class="note"><code>np.sqrt()</code> gives the square root of each value in the array.</div>
 `},
 {cat:"Slide Functions",q:"What does np.exp() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.exp()</code> Computes exponential (e^x) elementwise.</div>
+<div class="note"><code>np.exp()</code> computes <code>e^x</code> for each value in the array.</div>
 `},
 {cat:"Slide Functions",q:"What does np.log() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.log()</code> Computes natural logarithm elementwise.</div>
+<div class="note"><code>np.log()</code> computes the natural log of each value in the array.</div>
 `},
 {cat:"Slide Functions",q:"What does np.log10() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.log10()</code> Computes base-10 logarithm elementwise.</div>
+<div class="note"><code>np.log10()</code> computes the base-10 log of each value in the array.</div>
 `},
 {cat:"Slide Functions",q:"What does np.sin() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.sin()</code> Computes sine elementwise.</div>
+<div class="note"><code>np.sin()</code> computes sine for each value in the array.</div>
 `},
 {cat:"Slide Functions",q:"What does np.cos() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.cos()</code> Computes cosine elementwise.</div>
+<div class="note"><code>np.cos()</code> computes cosine for each value in the array.</div>
 `},
 {cat:"Slide Functions",q:"What does np.tan() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.tan()</code> Computes tangent elementwise.</div>
+<div class="note"><code>np.tan()</code> computes tangent for each value in the array.</div>
 `},
 {cat:"Slide Functions",q:"What does np.arcsin() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.arcsin()</code> Computes inverse sine elementwise.</div>
+<div class="note"><code>np.arcsin()</code> computes inverse sine for each value in the array.</div>
 `},
 {cat:"Slide Functions",q:"What does np.arccos() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.arccos()</code> Computes inverse cosine elementwise.</div>
+<div class="note"><code>np.arccos()</code> computes inverse cosine for each value in the array.</div>
 `},
 {cat:"Slide Functions",q:"What does np.arctan() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.arctan()</code> Computes inverse tangent elementwise.</div>
+<div class="note"><code>np.arctan()</code> computes inverse tangent for each value in the array.</div>
 `},
 {cat:"Slide Functions",q:"What does np.floor() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.floor()</code> Rounds values down to nearest integer elementwise.</div>
+<div class="note"><code>np.floor()</code> rounds each value down to the nearest whole number.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>np.floor([2.9, -1.2]) -> [2., -2.]</code></div>
+<div class="eq-block"><code>np.floor([2.9, -1.2]) -> array([ 2., -2.])</code></div>
 `},
 {cat:"Slide Functions",q:"What does np.ceil() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.ceil()</code> Rounds values up to nearest integer elementwise.</div>
+<div class="note"><code>np.ceil()</code> rounds each value up to the nearest whole number.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>np.ceil([2.1, -1.2]) -> [3., -1.]</code></div>
+<div class="eq-block"><code>np.ceil([2.1, -1.2]) -> array([ 3., -1.])</code></div>
 `},
 {cat:"Slide Functions",q:"What does np.round() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.round()</code> Rounds values to nearest integer/precision elementwise.</div>
+<div class="note"><code>np.round()</code> rounds each value to the nearest number (or to a chosen number of decimal places).</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>np.round([2.49, 2.51], 1) -> [2.5, 2.5]</code></div>
+<div class="eq-block"><code>np.round([2.49, 2.51], 1) -> array([2.5, 2.5])</code></div>
 `},
 {cat:"Slide Functions",q:"What does np.trunc() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.trunc()</code> Truncates fractional part elementwise.</div>
+<div class="note"><code>np.trunc()</code> removes the decimal part of each value.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>np.trunc([2.9, -1.8]) -> [2., -1.]</code></div>
+<div class="eq-block"><code>np.trunc([2.9, -1.8]) -> array([ 2., -1.])</code></div>
 `},
 {cat:"Slide Functions",q:"What does astype() do?",a:`
 <div class="lbl">Definition</div>
 <div class="note"><code>astype()</code> Casts an array to a target data type.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>np.array([1.7, 2.9]).astype(int) -> [1, 2]</code></div>
+<div class="eq-block"><code>np.array([1.7, 2.9]).astype(int) -> array([1, 2])</code></div>
 `},
 {cat:"Slide Functions",q:"What does random.random() do?",a:`
 <div class="lbl">Definition</div>
@@ -831,41 +803,37 @@ const ALL = [
 <div class="lbl">Definition</div>
 <div class="note"><code>random.randint()</code> Returns a random integer in a specified range.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>random.randint(1, 6) -> 4  # example die roll</code></div>
+<div class="eq-block"><code>random.randint(1, 6) -> 4  # one possible result</code></div>
 `},
 {cat:"Slide Functions",q:"What does random.choice() do?",a:`
 <div class="lbl">Definition</div>
 <div class="note"><code>random.choice()</code> Chooses a random element from a sequence.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>random.choice(['A','B','C']) -> 'B'</code></div>
+<div class="eq-block"><code>random.choice(['A', 'B', 'C']) -> 'B'  # one possible result</code></div>
 `},
 {cat:"Slide Functions",q:"What does np.random.rand() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>np.random.rand()</code> Generates random samples in [0,1) with given shape.</div>
+<div class="note"><code>np.random.rand()</code> makes random decimal numbers from 0 up to (but not including) 1, in the shape you ask for.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>np.random.rand(2,2) -> [[0.41,0.77],[0.12,0.93]]</code></div>
+<div class="eq-block"><code>np.random.rand(2, 2) -> array([[0.41, 0.77], [0.12, 0.93]])  # sample output</code></div>
 `},
 {cat:"Slide Functions",q:"What does time.perf_counter() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>time.perf_counter()</code> Returns a high-resolution timer for performance measurement.</div>
+<div class="note"><code>time.perf_counter()</code> gives a very precise timer value, useful for measuring how long code takes to run.</div>
 `},
 {cat:"Slide Functions",q:"What does time.sleep() do?",a:`
 <div class="lbl">Definition</div>
 <div class="note"><code>time.sleep()</code> Pauses execution for a specified number of seconds.</div>
 `},
-{cat:"Slide Functions",q:"What does math.sqrt() do?",a:`
-<div class="lbl">Definition</div>
-<div class="note"><code>math.sqrt()</code> Computes square root using Python's math module.</div>
-`},
 {cat:"Slide Functions",q:"What does plt.plot() do?",a:`
 <div class="lbl">Definition</div>
 <div class="note"><code>plt.plot()</code> Draws a line plot from x/y data.</div>
 <div class="lbl">Visual</div>
-<div class="eq-block"><code>x=[0,1,2], y=[1,3,2]<br>plt.plot(x,y)  # line through points</code></div>
+<div class="eq-block"><code>x = [0, 1, 2]<br>y = [1, 3, 2]<br>plt.plot(x, y)  # line through points</code></div>
 `},
 {cat:"Slide Functions",q:"What does plt.subplots() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>plt.subplots()</code> Creates a figure and axes objects for plotting layouts.</div>
+<div class="note"><code>plt.subplots()</code> creates a figure window and plot areas you can draw on.</div>
 <div class="lbl">Visual</div>
 <div class="eq-block"><code>fig, ax = plt.subplots(2, 2)<br># ax[0,0], ax[0,1], ax[1,0], ax[1,1]</code></div>
 `},
@@ -883,7 +851,7 @@ const ALL = [
 `},
 {cat:"Slide Functions",q:"What does ax.add_patch() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>ax.add_patch()</code> Adds a patch shape (like rectangles) to an axes.</div>
+<div class="note"><code>ax.add_patch()</code> adds a shape (like a rectangle or circle) to a plot area.</div>
 <div class="lbl">Visual</div>
 <div class="eq-block"><code>rect = Rectangle((1,1), 2, 3)<br>ax.add_patch(rect)</code></div>
 `},
@@ -928,26 +896,6 @@ const ALL = [
 <div class="note"><code>reset()</code> Custom class method that restores object state to initial value.</div>
 `},
 
-{cat:"Slide Functions",q:"What does math.degrees() do?",a:`
-<div class="lbl">Definition</div>
-<div class="note"><code>math.degrees(x)</code> converts an angle from radians to degrees.</div>
-`},
-{cat:"Slide Functions",q:"What does math.radians() do?",a:`
-<div class="lbl">Definition</div>
-<div class="note"><code>math.radians(x)</code> converts an angle from degrees to radians.</div>
-`},
-{cat:"Slide Functions",q:"What does math.log() do?",a:`
-<div class="lbl">Definition</div>
-<div class="note"><code>math.log(x[, base])</code> returns the logarithm of <code>x</code> (natural log by default, or base-<code>base</code> if provided).</div>
-`},
-{cat:"Slide Functions",q:"What is math.pi?",a:`
-<div class="lbl">Definition</div>
-<div class="note"><code>math.pi</code> is the constant value of pi (~3.14159).</div>
-`},
-{cat:"Slide Functions",q:"What is math.e?",a:`
-<div class="lbl">Definition</div>
-<div class="note"><code>math.e</code> is Euler's constant (~2.71828), the base of natural logs.</div>
-`},
 {cat:"Slide Functions",q:"What does np.full() do?",a:`
 <div class="lbl">Definition</div>
 <div class="note"><code>np.full(shape, value)</code> creates an array of a given shape with every element set to the same value.</div>
@@ -968,7 +916,7 @@ const ALL = [
 `},
 {cat:"Slide Functions",q:"What does tuple() do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>tuple(iterable)</code> creates a tuple (immutable sequence) from an iterable.</div>
+<div class="note"><code>tuple(iterable)</code> makes a tuple (a sequence you cannot change) from another collection.</div>
 `},
 {cat:"Slide Functions",q:"What does replace() do?",a:`
 <div class="lbl">Definition</div>
@@ -1120,11 +1068,11 @@ const ALL = [
 `},
 {cat:"Slide Functions",q:"What does __init__ mean in classes?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>__init__</code> is the class initializer method that sets up object state when a new instance is created.</div>
+<div class="note"><code>__init__</code> runs when you create a new object, and it sets up that object's starting values.</div>
 `},
 {cat:"Slide Functions",q:"What does match ... case do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>match ... case</code> is structural pattern matching (similar to switch/case) that selects code blocks by pattern.</div>
+<div class="note"><code>match ... case</code> checks a value against several patterns and runs the first matching block (similar to switch/case).</div>
 `},
 {cat:"Slide Functions",q:"What does the wildcard case _ mean?",a:`
 <div class="lbl">Definition</div>
@@ -1148,7 +1096,7 @@ const ALL = [
 `},
 {cat:"Slide Functions",q:"What does is / is not do?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><code>is</code> and <code>is not</code> test object identity (same object in memory), not value equality.</div>
+<div class="note"><code>is</code> and <code>is not</code> check whether two names point to the exact same object, not just equal values.</div>
 `},
 {cat:"Slide Functions",q:"What does the dot operator . do?",a:`
 <div class="lbl">Definition</div>
@@ -1218,21 +1166,21 @@ const ALL = [
 `},
 {cat:"Randomness & Timing",q:"Pseudo-random vs truly random",a:`
 <div class="lbl">Concept</div>
-<div class="note">Python generators are pseudo-random: they produce deterministic sequences that look random and are controlled by a seed.</div>
+<div class="note">Python random numbers are pseudo-random: they look random, but with the same seed you get the same sequence again.</div>
 `},
 {cat:"Randomness & Timing",q:"Why measure execution time?",a:`
 <div class="lbl">Reason</div>
-<div class="note">Timing code helps compare implementations and identify bottlenecks so programs can be optimized.</div>
+<div class="note">Timing code helps you compare approaches and find slow parts so you can speed the program up.</div>
 `},
 
 /* ?? FUNCTIONS & MODULARITY ????????????????????????????? */
 {cat:"Functions",q:"What is a user-defined function?",a:`
 <div class="lbl">Definition</div>
-<div class="note">A user-defined function is a reusable block of code written with <code>def</code> to perform a specific task.</div>
+<div class="note">A user-defined function is your own reusable mini-program, written with <code>def</code>, for one clear task.</div>
 `},
 {cat:"Functions",q:"What are parameters and arguments?",a:`
 <div class="lbl">Definition</div>
-<div class="note"><strong>Parameters</strong> are names in the function definition. <strong>Arguments</strong> are actual values passed when calling the function.</div>
+<div class="note"><strong>Parameters</strong> are the variable names in the function definition. <strong>Arguments</strong> are the real values you pass in when calling it.</div>
 `},
 {cat:"Functions",q:"What does return do?",a:`
 <div class="lbl">Definition</div>
